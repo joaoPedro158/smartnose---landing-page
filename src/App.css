@@ -273,3 +273,135 @@
     width: 24px;
   }
 }
+
+/* ── Vantagens / Benefícios ("Por que o SmartNose?") ────────────────────────── */
+
+.vantagens-flow {
+  position: relative;
+}
+
+/* Base Mobile: Connected vertical narrative */
+@media (max-width: 767px) {
+  .vantagens-track {
+    display: none;
+  }
+
+  .vantagens-grid {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    padding-left: 32px;
+    border-left: 1px solid rgba(0, 207, 170, 0.2);
+    margin-left: 8px;
+  }
+
+  .vantagens-item {
+    position: relative;
+  }
+
+  .vantagens-item::before {
+    content: '';
+    position: absolute;
+    left: -37px;
+    top: 6px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #00e5c0;
+    box-shadow: 0 0 10px rgba(0, 229, 192, 0.8);
+    border: 2px solid #05080e;
+  }
+}
+
+/* Tablet & Desktop: Connected horizontal narrative */
+@media (min-width: 768px) {
+  .vantagens-track {
+    position: absolute;
+    top: 17px;
+    left: 40px;
+    right: 40px;
+    height: 1px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .vantagens-track__line {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 207, 170, 0.4) 0%,
+      rgba(0, 153, 204, 0.35) 50%,
+      rgba(0, 229, 192, 0.4) 100%
+    );
+  }
+
+  .vantagens-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vantagens-grid {
+    gap: 48px;
+  }
+}
+
+.vantagens-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.vantagens-item__node {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.vantagens-item__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #070b14;
+  border: 1px solid rgba(0, 207, 170, 0.45);
+  color: #00cfaa;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 14px rgba(0, 207, 170, 0.15);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.vantagens-item:hover .vantagens-item__number {
+  border-color: #00e5c0;
+  box-shadow: 0 0 20px rgba(0, 229, 192, 0.35);
+  transform: scale(1.05);
+}
+
+.vantagens-item__icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.vantagens-item:hover .vantagens-item__icon-wrapper {
+  background: rgba(0, 207, 170, 0.05);
+  border-color: rgba(0, 207, 170, 0.25);
+}
+
