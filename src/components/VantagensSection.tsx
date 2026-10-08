@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 // ─── Minimalist Cohesive Icons ────────────────────────────────────────────────
 
@@ -156,11 +157,43 @@ const BENEFITS: BenefitItem[] = [
 
 // ─── Integrated Dashboard Demonstration ───────────────────────────────────────
 
+// ─── Image Carousel Demonstration ───────────────────────────────────────────────
+
+const CAROUSEL_SLIDES = [
+  {
+    title: "Monitoramento em Tempo Real",
+    description: "Acompanhe a evolução da fermentação com gráficos preditivos e identificação de voláteis sem intervenções manuais.",
+    image: "https://placehold.co/800x450/101928/00CFAA?text=Dashboard+Tempo+Real"
+  },
+  {
+    title: "Comparação de Bateladas",
+    description: "Sobreponha curvas de fermentações anteriores para manter o padrão e rastrear a qualidade da sua produção.",
+    image: "https://placehold.co/800x450/101928/0099CC?text=Comparacao+de+Bateladas"
+  },
+  {
+    title: "Alertas e Relatórios",
+    description: "Receba notificações instantâneas sobre desvios do processo e acesse os registros técnicos completos remotamente.",
+    image: "https://placehold.co/800x450/101928/00E5C0?text=Alertas+e+Relatorios"
+  }
+]
+
 function DashboardDemonstration() {
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % CAROUSEL_SLIDES.length)
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const nextSlide = () => setActiveIndex((current) => (current + 1) % CAROUSEL_SLIDES.length)
+  const prevSlide = () => setActiveIndex((current) => (current - 1 + CAROUSEL_SLIDES.length) % CAROUSEL_SLIDES.length)
+
   return (
     <div className="w-full mt-16 sm:mt-20">
       {/* Ambient background glow */}
-      <div className="relative mx-auto max-w-[1100px] rounded-2xl p-[1px] bg-gradient-to-b from-white/15 via-white/5 to-transparent shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+      <div className="relative mx-auto max-w-[900px] rounded-2xl p-[1px] bg-gradient-to-b from-white/15 via-white/5 to-transparent shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
         {/* Soft cyan aura behind the dashboard */}
         <div
           aria-hidden="true"
@@ -169,152 +202,72 @@ function DashboardDemonstration() {
 
         {/* Dashboard Frame */}
         <div className="relative overflow-hidden rounded-2xl bg-[#070b14]/95 backdrop-blur-xl border border-white/10 p-5 sm:p-7 md:p-8">
-          {/* Dashboard Header Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
-            <div className="flex items-center gap-3">
-              <span className="flex h-2.5 w-2.5 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-mint opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-mint" />
-              </span>
-              <div>
-                <p className="font-mono text-xs font-semibold tracking-wider text-primary uppercase">
-                  Batelada #042-B • Em andamento
-                </p>
-                <p className="text-xs text-slate-400 font-inter">
-                  Monitoramento contínuo dos compostos voláteis
-                </p>
-              </div>
+          
+          <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-xl overflow-hidden bg-black/50 border border-white/5 mb-6 group">
+            {/* Slide Images */}
+            <div 
+              className="flex w-full h-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" 
+              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+            >
+              {CAROUSEL_SLIDES.map((slide, idx) => (
+                <div key={idx} className="w-full h-full flex-shrink-0 relative">
+                  <img 
+                    src={slide.image} 
+                    alt={slide.title}
+                    className="w-full h-full object-cover opacity-80 mix-blend-screen"
+                    loading="lazy"
+                  />
+                  {/* Subtle inner shadow for depth */}
+                  <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(0,0,0,0.5)] pointer-events-none"></div>
+                </div>
+              ))}
             </div>
 
-            {/* Telemetry pill */}
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono text-slate-300">
-              <span className="text-accent-mint font-semibold">T+ 48h 12m</span>
-              <span className="text-white/20">|</span>
-              <span className="text-slate-400">Leitura remota estável</span>
+            {/* Navigation Arrows */}
+            <button 
+              onClick={prevSlide}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#05080e]/60 border border-white/10 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-[#00CFAA]/20 hover:border-[#00CFAA]/50 focus:outline-none"
+              aria-label="Anterior"
+            >
+              <ChevronLeft size={20} strokeWidth={2} />
+            </button>
+            <button 
+              onClick={nextSlide}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#05080e]/60 border border-white/10 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-[#00CFAA]/20 hover:border-[#00CFAA]/50 focus:outline-none"
+              aria-label="Próximo"
+            >
+              <ChevronRight size={20} strokeWidth={2} />
+            </button>
+          </div>
+
+          {/* Caption & Title */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="max-w-xl">
+              <h4 className="font-jakarta text-xl font-bold text-white transition-opacity duration-300">
+                {CAROUSEL_SLIDES[activeIndex].title}
+              </h4>
+              <p className="mt-2 font-inter text-sm text-slate-400 leading-relaxed transition-opacity duration-300">
+                {CAROUSEL_SLIDES[activeIndex].description}
+              </p>
+            </div>
+            
+            {/* Pagination Dots */}
+            <div className="flex items-center gap-2">
+              {CAROUSEL_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`h-1.5 transition-all duration-300 rounded-full ${
+                    activeIndex === idx ? 'w-6 bg-primary shadow-[0_0_10px_rgba(0,207,170,0.4)]' : 'w-2 bg-white/20 hover:bg-white/40'
+                  }`}
+                  aria-label={`Ir para a tela ${idx + 1}`}
+                />
+              ))}
             </div>
           </div>
 
-          {/* Metric cards summary */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 my-6">
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-              <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Voláteis Totais</p>
-              <p className="text-lg sm:text-xl font-bold font-jakarta text-white mt-1">94.2 <span className="text-xs font-mono text-primary font-normal">ppm</span></p>
-              <p className="text-[10px] text-accent-mint mt-0.5">Estágio vigoroso</p>
-            </div>
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-              <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Taxa de CO₂</p>
-              <p className="text-lg sm:text-xl font-bold font-jakarta text-white mt-1">1.84 <span className="text-xs font-mono text-secondary font-normal">L/min</span></p>
-              <p className="text-[10px] text-slate-400 mt-0.5">Pico estabilizado</p>
-            </div>
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-              <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Desvio da Batelada</p>
-              <p className="text-lg sm:text-xl font-bold font-jakarta text-white mt-1">&lt; 0.4%</p>
-              <p className="text-[10px] text-accent-mint mt-0.5">Padrão idêntico #041</p>
-            </div>
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-              <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Abertura de Tanque</p>
-              <p className="text-lg sm:text-xl font-bold font-jakarta text-white mt-1">0 <span className="text-xs font-mono text-primary font-normal">intervenções</span></p>
-              <p className="text-[10px] text-accent-mint mt-0.5">Processo 100% selado</p>
-            </div>
-          </div>
-
-          {/* SVG Fermentation Curve Graph */}
-          <div className="relative rounded-xl bg-[#04060a] border border-white/5 p-4 sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-              <span className="text-xs font-mono text-slate-300 uppercase tracking-wider">
-                Evolução Cinética da Fermentação (Tempo Real vs. Histórico)
-              </span>
-              <div className="flex items-center gap-4 text-[11px] font-mono">
-                <span className="inline-flex items-center gap-1.5 text-primary">
-                  <span className="w-2.5 h-0.5 bg-primary rounded-full inline-block" /> Batelada Atual (#042-B)
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-slate-400">
-                  <span className="w-2.5 h-0.5 bg-slate-500 rounded-full inline-block border-t border-dashed" /> Batelada Anterior (#041)
-                </span>
-              </div>
-            </div>
-
-            {/* Vector graph simulation */}
-            <div className="relative h-44 sm:h-52 w-full">
-              <svg
-                viewBox="0 0 800 200"
-                className="w-full h-full overflow-visible"
-                preserveAspectRatio="none"
-                aria-label="Gráfico de fermentação em tempo real"
-              >
-                <defs>
-                  {/* Cyan curve gradient fill */}
-                  <linearGradient id="cyanFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#00CFAA" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#00CFAA" stopOpacity="0.0" />
-                  </linearGradient>
-                  {/* Subtle grid pattern */}
-                  <pattern id="graphGrid" width="80" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 80 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
-                  </pattern>
-                </defs>
-
-                {/* Grid */}
-                <rect width="800" height="200" fill="url(#graphGrid)" />
-
-                {/* Previous batch baseline (dashed white/gray curve) */}
-                <path
-                  d="M0,180 Q150,175 240,130 T450,65 T650,45 T800,42"
-                  fill="none"
-                  stroke="rgba(148,163,184,0.4)"
-                  strokeWidth="1.5"
-                  strokeDasharray="4 4"
-                />
-
-                {/* Shaded area under active curve */}
-                <path
-                  d="M0,180 Q150,170 240,120 T450,55 T650,38 T800,35 L800,200 L0,200 Z"
-                  fill="url(#cyanFill)"
-                />
-
-                {/* Active batch primary curve (Cyan) */}
-                <path
-                  d="M0,180 Q150,170 240,120 T450,55 T650,38 T800,35"
-                  fill="none"
-                  stroke="#00CFAA"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-
-                {/* Secondary aroma volatile trajectory (Deep Electric Blue) */}
-                <path
-                  d="M0,195 Q200,190 320,160 T560,110 T720,80 T800,75"
-                  fill="none"
-                  stroke="#0099CC"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  opacity="0.85"
-                />
-
-                {/* Current real-time scan point marker */}
-                <circle cx="680" cy="37" r="4.5" fill="#00E5C0" className="animate-pulse" />
-                <circle cx="680" cy="37" r="10" stroke="#00E5C0" strokeWidth="1" opacity="0.4" />
-                <line x1="680" y1="0" x2="680" y2="200" stroke="#00E5C0" strokeWidth="1" strokeDasharray="2 2" opacity="0.3" />
-              </svg>
-            </div>
-
-            {/* Time labels axis */}
-            <div className="flex justify-between text-[10px] font-mono text-slate-500 pt-2 border-t border-white/5">
-              <span>Início (0h)</span>
-              <span>12h</span>
-              <span>24h</span>
-              <span>36h</span>
-              <span className="text-primary font-semibold">Tempo Atual (48h)</span>
-              <span>60h (Projeção)</span>
-            </div>
-          </div>
         </div>
       </div>
-
-      {/* Subdued descriptive caption */}
-      <p className="mt-3 text-center font-inter text-xs tracking-wide text-slate-400/80">
-        Visualização dos dados de fermentação em tempo real.
-      </p>
     </div>
   )
 }
