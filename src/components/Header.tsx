@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { ArrowRight, User, Menu, X } from 'lucide-react'
+import { ArrowRight, Menu, X } from 'lucide-react'
 
 // ─── Navigation links ─────────────────────────────────────────────────────────
 const NAV_LINKS = [
