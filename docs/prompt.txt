@@ -1,0 +1,19 @@
+eu quero construir uma landing page onde vai ter esse seções nessa ordem
+
+hero - o que é - problema - vantagem - como funciona - valor social - equipe 
+
+alem de ter um heaeder com os atalhos para cada seção e um roda page
+
+requistos:
+faça em react 
+siga a arquiteutra de pacotes atual
+faça um planejamento antes para eu revisar antes de implementar
+
+o que não fazer:
+fazer as outras seções
+
+
+instruções:
+
+
+

@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-08T12:25:00Z",
+  "title": "Design System: SmartNose",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Spectral Cyan",
+        "canonical": "#00CFAA",
+        "tonalRamp": ["#00261f", "#004d3e", "#00735e", "#00997d", "#00cfaa", "#33d9bb", "#66e2cc", "#99ecdd"]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Deep Electric Blue",
+        "canonical": "#0099CC",
+        "tonalRamp": ["#001d26", "#003b4d", "#005873", "#007699", "#0099cc", "#33add6", "#66c2e0", "#99d6eb"]
+      },
+      "accent-mint": {
+        "role": "accent",
+        "displayName": "Mint Glow",
+        "canonical": "#00E5C0",
+        "tonalRamp": ["#002e26", "#005c4d", "#008a73", "#00b899", "#00e5c0", "#33eab3", "#66efc6", "#99f5d9"]
+      },
+      "brand-dark": {
+        "role": "neutral",
+        "displayName": "Deep Void Background",
+        "canonical": "#05080e",
+        "tonalRamp": ["#020306", "#05080e", "#0a101c", "#10192b", "#152139", "#1b2a48", "#203256", "#263b65"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display Headline", "purpose": "Hero main headline." },
+      "headline": { "displayName": "Section Headline", "purpose": "Main section titles." },
+      "body": { "displayName": "Body Text", "purpose": "Paragraphs and explanations." },
+      "label": { "displayName": "Telemetric Label", "purpose": "Badges and technical steps." }
+    },
+    "shadows": [
+      { "name": "ambient-glow", "value": "0 0 25px -3px rgba(0,207,170,0.35), 0 0 10px -2px rgba(0,229,192,0.25)", "purpose": "Backlight glow behind interactive elements." }
+    ],
+    "motion": [
+      { "name": "fade-up", "value": "fade-up 0.7s ease-out forwards", "purpose": "Smooth entry for hero and section content." }
+    ],
+    "breakpoints": [
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "B2B Primary CTA with gradient and backlight glow.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">CONHECER A EQUIPE</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 9999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.35px; color: #020617; text-decoration: none; background: linear-gradient(90deg, #00CFAA 0%, #0099CC 100%); box-shadow: 0 0 25px -3px rgba(0,207,170,0.4), 0 0 10px -2px rgba(0,229,192,0.3); transition: transform 0.3s ease, filter 0.3s ease; } .ds-btn-primary:hover { transform: scale(1.04); filter: brightness(1.1); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary outline action button.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">COMO FUNCIONA</a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 9999px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.35px; color: #ffffff; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.04); transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease; } .ds-btn-ghost:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); transform: scale(1.03); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Spectral Sensing Laboratory",
+    "overview": "O SmartNose adota uma estética tecnológica de bio-sensoriamento de última geração, combinando uma atmosfera de laboratório digital escuro com resplendores espectrais em tom ciano e azul elétrico.",
+    "keyCharacteristics": [
+      "Fundo noturno profundo (#05080e / #070b14) com esferas radiais de luz ciano/azul em movimento pulsante.",
+      "Destaques visuais e CTAs primários com gradientes duplos ciano-azul.",
+      "Tipografia primária arrojada em Plus Jakarta Sans, contrastada com corpo em Inter e detalhes em JetBrains Mono."
+    ],
+    "rules": [
+      { "name": "The Spectral Glow Rule", "body": "O tom primário ciano (#00CFAA) e o gradiente nunca são aplicados em blocos maciços sem um suave resplendor.", "section": "colors" },
+      { "name": "The Tech Mono Badge Rule", "body": "Todos os rótulos de contagem e dados telemétricos usam estritamente JetBrains Mono.", "section": "typography" },
+      { "name": "The Backlight Elevation Rule", "body": "Elementos flutuantes projetam luzes coloridas em ciano para trás.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usar o gradiente duplo #00CFAA -> #0099CC para todos os botões de ação principal.",
+      "Do manter a hierarquia tipográfica usando JetBrains Mono apenas em dados telemétricos.",
+      "Do manter os fundos em tons escuros noturnos para garantir contraste."
+    ],
+    "donts": [
+      "Don't utilizar fundos brancos ou cinzas claros em seções.",
+      "Don't misturar cores de destaque fora do espectro ciano, azul elétrico e verde-menta.",
+      "Don't remover a opacidade translúcida e o vidro fosco."
+    ]
+  }
+}
