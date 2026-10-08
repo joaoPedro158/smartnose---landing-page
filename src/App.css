@@ -1,0 +1,113 @@
+.problem-title__accent {
+  color: #00cfaa;
+}
+
+.problem-flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.problem-step {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 20px;
+  background: linear-gradient(145deg, rgba(16, 25, 40, 0.58), rgba(8, 13, 22, 0.78));
+}
+
+.problem-step:not(:last-child)::after {
+  position: absolute;
+  z-index: 1;
+  top: calc(100% + 1px);
+  left: 28px;
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(to bottom, rgba(0, 207, 170, 0.5), rgba(56, 189, 248, 0.2));
+  content: '';
+}
+
+.problem-step__marker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 5px;
+  color: #00cfaa;
+}
+
+.problem-step--blue .problem-step__marker {
+  color: #38bdf8;
+}
+
+.problem-step__number {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(0, 207, 170, 0.35);
+  border-radius: 50%;
+  background: rgba(0, 207, 170, 0.08);
+  color: #6ee7d1;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.problem-step--blue .problem-step__number {
+  border-color: rgba(56, 189, 248, 0.35);
+  background: rgba(56, 189, 248, 0.08);
+  color: #7dd3fc;
+}
+
+.problem-conclusion {
+  max-width: 720px;
+  margin: 34px auto 0;
+  text-align: center;
+}
+
+.problem-conclusion span {
+  color: #6ee7d1;
+}
+
+@media (min-width: 768px) {
+  .problem-flow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .problem-step {
+    min-height: 220px;
+    padding: 24px;
+  }
+
+  .problem-step:not(:last-child)::after {
+    top: 37px;
+    left: calc(100% + 1px);
+    width: 22px;
+    height: 1px;
+    background: linear-gradient(to right, rgba(0, 207, 170, 0.5), rgba(56, 189, 248, 0.2));
+  }
+
+  .problem-conclusion {
+    margin-top: 42px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .problem-step {
+    min-height: 204px;
+  }
+
+  .problem-step:not(:last-child)::after {
+    width: 24px;
+  }
+}
