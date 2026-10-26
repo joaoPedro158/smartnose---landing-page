@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
-import dashboardExperiment from '../img/grafico_dashBoard(2).jpg'
-import dashboardSensors from '../img/grafico_dashboard.jpg'
-import dashboardComparison from '../img/grafico_dashboard(1).jpg'
+import React from 'react'
+
 
 // ─── Minimalist Cohesive Icons ────────────────────────────────────────────────
 
@@ -162,79 +159,9 @@ const BENEFITS: BenefitItem[] = [
 
 // ─── Image Carousel Demonstration ───────────────────────────────────────────────
 
-const CAROUSEL_SLIDES = [
-  {
-    title: 'Visualização gráfica do experimento',
-    description: 'Curvas de resposta dos sensores MQ, temperatura e umidade registradas durante o experimento.',
-    image: dashboardExperiment,
-    alt: 'Gráfico do experimento com curvas de sensores MQ, temperatura e umidade.',
-  },
-  {
-    title: 'Respostas em diferentes ensaios',
-    description: 'Dois registros gráficos mostram as respostas dos sensores em configurações distintas do experimento.',
-    image: dashboardSensors,
-    alt: 'Dois gráficos de respostas dos sensores em ensaios com configurações distintas.',
-  },
-  {
-    title: 'Leitura das curvas dos sensores',
-    description: 'Acompanhe no painel as variações percentuais registradas ao longo do experimento.',
-    image: dashboardComparison,
-    alt: 'Painel gráfico com as curvas percentuais dos sensores ao longo do experimento.',
-  },
-]
 
-function DashboardDemonstration() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(true)
-  const [isHovered, setIsHovered] = useState(false)
-  const [isFocused, setIsFocused] = useState(false)
 
-  useEffect(() => {
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const updateMotionPreference = () => setIsPlaying(!motionPreference.matches)
-    updateMotionPreference()
-    motionPreference.addEventListener('change', updateMotionPreference)
-    return () => motionPreference.removeEventListener('change', updateMotionPreference)
-  }, [])
 
-  useEffect(() => {
-    if (!isPlaying || isHovered || isFocused) return
-    const timer = setInterval(() => {
-      setActiveIndex((current) => (current + 1) % CAROUSEL_SLIDES.length)
-    }, 6000)
-    return () => clearInterval(timer)
-  }, [isPlaying, isHovered, isFocused])
-
-  const nextSlide = () => setActiveIndex((current) => (current + 1) % CAROUSEL_SLIDES.length)
-  const prevSlide = () => setActiveIndex((current) => (current - 1 + CAROUSEL_SLIDES.length) % CAROUSEL_SLIDES.length)
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'ArrowRight') {
-      event.preventDefault()
-      nextSlide()
-    } else if (event.key === 'ArrowLeft') {
-      event.preventDefault()
-      prevSlide()
-    }
-  }
-
-  return (
-    <div
-      className="w-full mt-16 sm:mt-20"
-      role="region"
-      aria-roledescription="carrossel"
-      aria-label="Imagens do sistema SmartNose"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocusCapture={() => setIsFocused(true)}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setIsFocused(false)
-      }}
-      onKeyDown={handleKeyDown}
-    >
-      
-    </div>
-  )
-}
 
 // ─── Main Section Component ───────────────────────────────────────────────────
 
@@ -306,8 +233,7 @@ export default function VantagensSection() {
           </div>
         </div>
 
-        {/* ── System Demonstration (Dashboard) ─────────────────────────── */}
-        <DashboardDemonstration />
+
       </div>
     </section>
   )
