@@ -1,11 +1,9 @@
-
 interface TeamMember {
   name: string
   initials: string
-  position: string
+  position: 'Estudante' | 'Orientador'
   area: string
   responsibilities: string
-  demoContacts?: boolean
 }
 
 const TEAM: TeamMember[] = [
@@ -14,67 +12,105 @@ const TEAM: TeamMember[] = [
     initials: 'JP',
     position: 'Estudante',
     area: 'Hardware',
-    responsibilities: 'Responsável pela montagem do protótipo e pela programação das placas Arduino e ESP32.',
-    demoContacts: true,
+    responsibilities: 'Montagem do protótipo e programação das placas Arduino e ESP32.',
   },
   {
     name: 'Luana Gomes',
     initials: 'LG',
     position: 'Estudante',
     area: 'Hardware',
-    responsibilities: 'Responsável pela montagem do protótipo e pela programação das placas Arduino e ESP32.',
-    demoContacts: true,
+    responsibilities: 'Montagem do protótipo e programação das placas Arduino e ESP32.',
   },
   {
     name: 'João Vitor',
     initials: 'JV',
     position: 'Estudante',
     area: 'Software',
-    responsibilities: 'Responsável pelo desenvolvimento da camada de backend e por DevOps.',
-    demoContacts: true,
+    responsibilities: 'Backend e operações de infraestrutura (DevOps).',
   },
   {
     name: 'Bruno',
     initials: 'B',
     position: 'Estudante',
     area: 'Software',
-    responsibilities: 'Responsável pelo desenvolvimento do sistema que recebe os dados do SmartNose.',
+    responsibilities: 'Desenvolvimento do sistema que recebe os dados do SmartNose.',
   },
   {
     name: 'Ary Souza',
     initials: 'AS',
     position: 'Orientador',
     area: 'Engenharia elétrica',
-    responsibilities: 'Responsável por orientar a montagem física do protótipo e a parte elétrica.',
-    demoContacts: true,
+    responsibilities: 'Orientação da montagem física e dos sistemas elétricos.',
   },
   {
     name: 'Leandro',
     initials: 'L',
     position: 'Orientador',
     area: 'Engenharia de software',
-    responsibilities: 'Responsável pela arquitetura do software e pela montagem de modelos de análise.',
+    responsibilities: 'Arquitetura de software e modelos de análise.',
   },
   {
     name: 'Hanniel Freitas',
     initials: 'HF',
     position: 'Orientador',
     area: 'Química',
-    responsibilities: 'Responsável por preparar as amostras que serão analisadas.',
+    responsibilities: 'Preparação das amostras para análise.',
   },
 ]
 
-function DemonstrationContacts() {
+const CONTACTS = [
+  { name: 'LinkedIn', label: 'LinkedIn', path: <><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6Z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></> },
+  { name: 'GitHub', label: 'GitHub', path: <><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></> },
+  { name: 'E-mail', label: 'E-mail', path: <><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></> },
+  { name: 'Currículo Lattes', label: 'Lattes', path: <><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 17v3h14v-3"/></> },
+]
+
+function ContactIcons() {
   return (
-    <ul className="team-contacts" aria-label="Canais de contato demonstrativos, sem links funcionais">
-      <li><span>LinkedIn <small>demo</small></span></li>
-      <li><span>Instagram <small>demo</small></span></li>
-      <li><span>E-mail <small>demo</small></span></li>
+    <ul className="team-contacts" aria-label="Canais de contato">
+      {CONTACTS.map((contact) => (
+        <li key={contact.name}>
+          <span className="team-contact-icon" aria-label={`${contact.name}: link não informado`} title={`${contact.name}: link não informado`}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              {contact.path}
+            </svg>
+            <span className="sr-only">{contact.label}</span>
+          </span>
+        </li>
+      ))}
     </ul>
   )
 }
 
+function MemberCards({ members }: { members: TeamMember[] }) {
+  return (
+    <div className="team-grid">
+      {members.map((member) => (
+        <article className="team-member" key={member.name}>
+          <div className="team-member__identity">
+            <div className="team-member__avatar" role="img" aria-label={`Iniciais de ${member.name}`}>
+              <span aria-hidden="true">{member.initials}</span>
+            </div>
+            <div className="team-member__details">
+              <h4>{member.name}</h4>
+              <p className="team-member__position">{member.position}</p>
+              <span className="team-member__area">{member.area}</span>
+            </div>
+          </div>
+          <p className="team-member__description">{member.responsibilities}</p>
+          <div className="team-member__contact">
+            <ContactIcons />
+          </div>
+        </article>
+      ))}
+    </div>
+  )
+}
+
 export default function EquipeSection() {
+  const students = TEAM.filter((member) => member.position === 'Estudante')
+  const mentors = TEAM.filter((member) => member.position === 'Orientador')
+
   return (
     <section
       id="equipe"
@@ -88,43 +124,25 @@ export default function EquipeSection() {
         </header>
 
         <p className="team-note" role="note">
-          Avatares e canais identificados como demonstração são temporários e não levam a perfis reais.
+          Os ícones indicam canais disponíveis; links de perfis serão adicionados quando informados.
         </p>
 
-        <div className="team-grid">
-          {TEAM.map((member) => (
-            <article className="team-member" key={member.name}>
-              <div className="team-member__identity">
-                <div className="team-member__avatar" role="img" aria-label={`Placeholder de foto de ${member.name}`}>
-                  <span aria-hidden="true">{member.initials}</span>
-                  <small>Foto pendente</small>
-                </div>
-                <div className="team-member__details">
-                  <h3>{member.name}</h3>
-                  <p className="team-member__position">{member.position}</p>
-                  <p className="team-member__area">{member.area}</p>
-                </div>
-              </div>
+        <div className="team-category">
+          <header className="team-category__heading">
+            <h3>Membros do Projeto</h3>
+            <span>{students.length} pessoas</span>
+          </header>
+          <MemberCards members={students} />
+        </div>
 
-              <div className="team-member__responsibilities">
-                <h4>Responsabilidades</h4>
-                <p>{member.responsibilities}</p>
-              </div>
-
-              <div className="team-member__contact">
-                <h4>Contato</h4>
-                {member.demoContacts
-                  ? <DemonstrationContacts />
-                  : <p className="team-member__contact-pending">Canais ainda não informados</p>}
-              </div>
-            </article>
-          ))}
+        <div className="team-category team-category--mentors">
+          <header className="team-category__heading">
+            <h3>Orientadores / Mentores</h3>
+            <span>{mentors.length} pessoas</span>
+          </header>
+          <MemberCards members={mentors} />
         </div>
       </div>
     </section>
   )
 }
-
-
-
-
