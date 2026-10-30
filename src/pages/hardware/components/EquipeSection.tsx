@@ -87,19 +87,22 @@ function MemberCards({ members }: { members: TeamMember[] }) {
     <div className="team-grid">
       {members.map((member) => (
         <article className="team-member" key={member.name}>
-          <div className="team-member__identity">
-            <div className="team-member__avatar" role="img" aria-label={`Iniciais de ${member.name}`}>
-              <span aria-hidden="true">{member.initials}</span>
+          <div className="team-member__portrait" aria-hidden="true">
+            <div className="team-member__avatar">
+              <span>{member.initials}</span>
             </div>
+            <span className="team-member__portrait-mark">SmartNose</span>
+          </div>
+          <div className="team-member__content">
             <div className="team-member__details">
-              <h4>{member.name}</h4>
+              <h3>{member.name}</h3>
               <p className="team-member__position">{member.position}</p>
               <span className="team-member__area">{member.area}</span>
             </div>
-          </div>
-          <p className="team-member__description">{member.responsibilities}</p>
-          <div className="team-member__contact">
-            <ContactIcons />
+            <p className="team-member__description">{member.responsibilities}</p>
+            <div className="team-member__contact">
+              <ContactIcons />
+            </div>
           </div>
         </article>
       ))}
