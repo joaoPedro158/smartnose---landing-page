@@ -1,6 +1,10 @@
+import fotoPerfil from '../img/foto-perfil-mock.jpg'
+import fotoPerfil2 from '../img/foto-perfil-mock2.jpg'
+import fotoPerfil3 from '../img/foto-perfil-mock3.jpg'
+
 interface TeamMember {
   name: string
-  initials: string
+  image: string
   position: 'Estudante' | 'Orientador'
   area: string
   responsibilities: string
@@ -9,49 +13,49 @@ interface TeamMember {
 const TEAM: TeamMember[] = [
   {
     name: 'João Pedro da Silva Neto',
-    initials: 'JP',
+    image: fotoPerfil,
     position: 'Estudante',
     area: 'Hardware',
     responsibilities: 'Montagem do protótipo e programação das placas Arduino e ESP32.',
   },
   {
     name: 'Luana Gomes',
-    initials: 'LG',
+    image: fotoPerfil2,
     position: 'Estudante',
     area: 'Hardware',
     responsibilities: 'Montagem do protótipo e programação das placas Arduino e ESP32.',
   },
   {
     name: 'João Vitor',
-    initials: 'JV',
+    image: fotoPerfil3,
     position: 'Estudante',
     area: 'Software',
     responsibilities: 'Backend e operações de infraestrutura (DevOps).',
   },
   {
     name: 'Bruno',
-    initials: 'B',
+    image: fotoPerfil,
     position: 'Estudante',
     area: 'Software',
     responsibilities: 'Desenvolvimento do sistema que recebe os dados do SmartNose.',
   },
   {
     name: 'Ary Souza',
-    initials: 'AS',
+    image: fotoPerfil2,
     position: 'Orientador',
     area: 'Engenharia elétrica',
     responsibilities: 'Orientação da montagem física e dos sistemas elétricos.',
   },
   {
     name: 'Leandro',
-    initials: 'L',
+    image: fotoPerfil3,
     position: 'Orientador',
     area: 'Engenharia de software',
     responsibilities: 'Arquitetura de software e modelos de análise.',
   },
   {
     name: 'Hanniel Freitas',
-    initials: 'HF',
+    image: fotoPerfil,
     position: 'Orientador',
     area: 'Química',
     responsibilities: 'Preparação das amostras para análise.',
@@ -87,10 +91,8 @@ function MemberCards({ members }: { members: TeamMember[] }) {
     <div className="team-grid">
       {members.map((member) => (
         <article className="team-member" key={member.name}>
-          <div className="team-member__portrait" aria-hidden="true">
-            <div className="team-member__avatar">
-              <span>{member.initials}</span>
-            </div>
+          <div className="team-member__portrait">
+            <img className="team-member__image" src={member.image} alt={`Foto de ${member.name}`} />
             <span className="team-member__portrait-mark">SmartNose</span>
           </div>
           <div className="team-member__content">
