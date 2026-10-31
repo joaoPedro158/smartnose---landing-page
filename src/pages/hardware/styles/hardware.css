@@ -973,24 +973,22 @@
 }
 
 .team-member__avatar {
-  display: flex;
+  display: block;
   width: 68px;
   height: 68px;
   flex: 0 0 68px;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
+  object-position: center;
   border: 1px solid rgba(0, 229, 192, 0.7);
   border-radius: 22px;
-  background: linear-gradient(145deg, rgba(0, 207, 170, 0.28), rgba(0, 153, 204, 0.2) 58%, rgba(9, 21, 30, 0.94));
   box-shadow: 0 0 0 3px rgba(0, 207, 170, 0.08);
-  color: #e6fffa;
+  filter: saturate(0.9);
+  transition: transform 280ms ease, filter 280ms ease;
 }
 
-.team-member__avatar > span {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 21px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
+.team-member:hover .team-member__avatar {
+  transform: scale(1.04);
+  filter: saturate(1);
 }
 
 .team-member__details {
@@ -1440,7 +1438,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .team-member,
-  .team-contact-icon {
+  .team-contact-icon,
+  .team-member__avatar {
     transition: none;
   }
 
@@ -1449,4 +1448,3 @@
     transform: none;
   }
 }
-
