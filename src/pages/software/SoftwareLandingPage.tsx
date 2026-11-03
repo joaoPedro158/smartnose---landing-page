@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowUpRight, Activity, Menu } from 'lucide-react'
 import softwareHero from './img/hero_2.png'
 import SoftwareHeroSection from './components/SoftwareHeroSection'
-import SoftwareDemoSection from './components/SoftwareDemoSection'
+import SoftwareHighlightsSection from './components/SoftwareHighlightsSection'
 import './styles/software.css'
 
 const navigation = ['Início', 'O software', 'Recursos', 'Contato']
@@ -33,12 +33,12 @@ export default function SoftwareLandingPage() {
       <div className="software-page__image-glow" aria-hidden="true" />
       <header className={`software-header${headerSolid ? ' is-scrolled' : ''}`}>
         <a className="software-brand" href="#inicio" aria-label="SmartNose — início"><span className="software-brand__mark" aria-hidden="true"><Activity size={19} strokeWidth={2.4} /></span><span>smart<span>nose</span></span></a>
-        <nav className="software-nav" aria-label="Navegação principal"><a href="#/hardware">Hardware</a>{navigation.map((item, index) => <a href={index === 0 ? '#inicio' : index === 2 ? '#novidades' : '#'} key={item} aria-current={index === 0 ? 'page' : undefined}>{item}</a>)}</nav>
+        <nav className="software-nav" aria-label="Navegação principal"><a href="#/hardware">Hardware</a>{navigation.map((item, index) => <a href={index === 0 ? '#inicio' : index === 2 ? '#recursos' : '#'} key={item} aria-current={index === 0 ? 'page' : undefined}>{item}</a>)}</nav>
         <a className="software-header__cta" href="#">Acessar plataforma <ArrowUpRight size={15} aria-hidden="true" /></a>
         <button className="software-header__menu" type="button" aria-label="Abrir menu"><Menu size={22} aria-hidden="true" /></button>
       </header>
       <SoftwareHeroSection />
-      <SoftwareDemoSection />
+      <SoftwareHighlightsSection />
     </main>
   )
 }
