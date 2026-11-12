@@ -90,17 +90,15 @@ export default function SoftwareAnalyticsCarousel() {
                   >
                     <img src={analysis.image} alt={analysis.alt} loading="lazy" decoding="async" draggable={false} />
                   </button>
-                  <div className="software-analytics__caption" aria-live="polite">
-                    <div>
-                      <h3>{analysis.title}</h3>
-                      <p>{analysis.description}</p>
-                    </div>
-                    <span className="software-analytics__counter">{String(index + 1).padStart(2, '0')} <i>/</i> {String(analyses.length).padStart(2, '0')}</span>
-                  </div>
                 </article>
               )
             })}
           </div>
+        </div>
+
+        <div className="software-analytics__details" key={activeIndex} aria-live="polite">
+          <h3>{analyses[activeIndex].title}</h3>
+          <p>{analyses[activeIndex].description}</p>
         </div>
 
         <div className="software-analytics__pagination" aria-label="Escolher análise">
