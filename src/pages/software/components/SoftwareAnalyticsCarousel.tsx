@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type PointerEvent } from 'react'
+import { useState, type PointerEvent } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import heatmap from '../img/heatmap.png'
 import pairplot from '../img/paiplot.png'
@@ -71,7 +71,6 @@ export default function SoftwareAnalyticsCarousel() {
           <div className="software-analytics__rail">
             {analyses.map((analysis, index) => {
               const isActive = index === activeIndex
-              const position = index === activeIndex ? 0 : index === (activeIndex + 1) % analyses.length ? 1 : 2
               return (
                 <article
                   className={`software-analytics__slide${isActive ? ' is-active' : ''}`}
@@ -79,7 +78,6 @@ export default function SoftwareAnalyticsCarousel() {
                   aria-roledescription="slide"
                   aria-label={`${index + 1} de ${analyses.length}: ${analysis.title}`}
                   aria-hidden={!isActive}
-                  style={{ '--slide-position': position } as CSSProperties}
                 >
                   <button
                     className="software-analytics__image-button"
