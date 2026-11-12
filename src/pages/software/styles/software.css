@@ -100,6 +100,81 @@
 @media(max-width:900px){.software-update-card{flex-basis:21%;height:clamp(250px,40vw,380px)}.software-update-card.is-active{flex-basis:66%}.software-updates__feature>p{font-size:16px}}
 @media(max-width:680px){.software-updates{padding:56px 20px}.software-updates__header{align-items:flex-start;margin-bottom:21px}.software-updates__header h2{font-size:28px}.software-updates__header p{font-size:15px}.software-updates__controls{gap:6px}.software-updates__controls button{width:38px;height:38px}.software-updates__rail{gap:10px;margin-right:-20px;padding-right:20px}.software-update-card{flex-basis:19%;min-width:68px;height:250px;border-radius:5px}.software-update-card.is-active{flex-basis:76%}.software-update-card__title{right:18px;bottom:18px;left:18px;font-size:21px}.software-updates__feature{align-items:flex-start;flex-direction:column;gap:16px;padding-top:17px}.software-updates__feature>p{font-size:15px}.software-updates__feature>a{min-height:44px}}
 @media(prefers-reduced-motion:reduce){.software-update-card,.software-update-card img,.software-update-card__shade,.software-update-card__title,.software-updates__controls button{transition:none}}
+
+/* Administrator panel showcase, following the SmartNose dark spectral palette. */
+.software-admin {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(72px, 9vw, 120px) max(24px, calc((100vw - 1440px) / 2));
+  background: #070b14;
+  color: #fff;
+  isolation: isolate;
+}
+.software-admin::before {
+  position: absolute;
+  z-index: -1;
+  top: 8%;
+  left: 50%;
+  width: min(72vw, 980px);
+  aspect-ratio: 1.8;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 153, 204, .16), rgba(0, 207, 170, .07) 42%, transparent 72%);
+  content: '';
+  filter: blur(48px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.software-admin__inner { width: min(100%, 1232px); margin-inline: auto; }
+.software-admin__header { max-width: 760px; margin: 0 auto clamp(34px, 5vw, 56px); text-align: center; }
+.software-admin__header h2 {
+  margin: 0;
+  color: #fff;
+  font: 700 clamp(28px, 4vw, 48px)/1.12 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -.035em;
+}
+.software-admin__header p { max-width: 640px; margin: 14px auto 0; color: #D1D5DB; font: 400 16px/1.55 Inter, sans-serif; }
+.software-admin__preview {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(0, 207, 170, .28);
+  border-radius: 14px;
+  background: #05080e;
+  box-shadow: 0 24px 56px rgba(0, 0, 0, .32), 0 12px 36px rgba(0, 153, 204, .12);
+}
+.software-admin__preview img { display: block; width: 100%; height: auto; }
+.software-admin__features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  margin-top: clamp(34px, 5vw, 56px);
+}
+.software-admin__feature { min-width: 0; }
+.software-admin__feature-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 17px;
+  place-items: center;
+  border: 1px solid rgba(0, 207, 170, .32);
+  border-radius: 9px;
+  background: rgba(0, 207, 170, .08);
+  color: #00E5C0;
+}
+.software-admin__feature h3 { margin: 0; color: #fff; font: 700 20px/1.2 'Plus Jakarta Sans', sans-serif; letter-spacing: -.02em; }
+.software-admin__feature p { max-width: 360px; margin: 8px 0 0; color: #D1D5DB; font: 400 16px/1.6 Inter, sans-serif; }
+@media(max-width:767px) {
+  .software-admin { padding: 64px 20px 76px; }
+  .software-admin__header { margin-bottom: 30px; text-align: left; }
+  .software-admin__header h2 { font-size: clamp(28px, 8vw, 34px); }
+  .software-admin__header p { margin: 10px 0 0; font-size: 16px; }
+  .software-admin__preview { border-radius: 8px; }
+  .software-admin__features { grid-template-columns: minmax(0, 1fr); gap: 25px; margin-top: 30px; }
+  .software-admin__feature { display: grid; grid-template-columns: 42px minmax(0, 1fr); column-gap: 14px; align-items: start; }
+  .software-admin__feature-icon { grid-column: 1; grid-row: 1 / span 2; margin: 0; }
+  .software-admin__feature h3 { grid-column: 2; }
+  .software-admin__feature p { grid-column: 2; margin-top: 4px; }
+}
 /* Final crop and contrast adjustments for the supplied full-bleed hero image. */
 @media(min-width:681px) {
   .software-page__image img { width:110%; max-width:none; }
