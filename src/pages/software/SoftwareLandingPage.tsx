@@ -3,6 +3,7 @@ import { ArrowUpRight, Activity, Menu } from 'lucide-react'
 import softwareHero from './img/hero_2.png'
 import SoftwareHeroSection from './components/SoftwareHeroSection'
 import SoftwareHighlightsSection from './components/SoftwareHighlightsSection'
+import SoftwareAdminSection from './components/SoftwareAdminSection'
 import './styles/software.css'
 
 const navigation = ['Início', 'O software', 'Recursos', 'Contato']
@@ -39,6 +40,7 @@ export default function SoftwareLandingPage() {
       </header>
       <SoftwareHeroSection />
       <SoftwareHighlightsSection />
+      <SoftwareAdminSection />
     </main>
   )
 }
