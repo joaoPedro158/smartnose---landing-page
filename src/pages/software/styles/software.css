@@ -70,6 +70,36 @@
   .software-hero { height: auto; min-height: 100svh; padding-top: 90px; padding-bottom: 76px; }
 }
 @media(prefers-reduced-motion:reduce) { .software-header { transition: none; } }
+
+/* Expandable product demos, inspired by the reference carousel. */
+.software-updates{padding:clamp(64px,8vw,112px) max(24px,calc((100vw - 1440px)/2));background:#fff;color:#111827}
+.software-updates__inner{width:min(100%,1232px);margin-inline:auto}
+.software-updates__header{align-items:end;margin-bottom:30px}
+.software-updates__header h2{color:#101828;font:600 clamp(29px,3vw,34px)/1.14 Inter,sans-serif;letter-spacing:-.045em}
+.software-updates__header p{margin-top:4px;color:#667085;font:400 clamp(17px,2vw,21px)/1.4 Inter,sans-serif;letter-spacing:-.025em}
+.software-updates__controls{gap:8px}
+.software-updates__controls button{width:42px;height:42px;border:0;border-radius:5px;background:#eeeaff;color:#635bff;transition:background .18s ease,transform .18s ease}
+.software-updates__controls button:hover{background:#e1dcff;transform:translateY(-1px)}
+.software-updates__rail{gap:16px;overflow-x:auto;overflow-y:hidden;padding:0 0 2px;scrollbar-width:none;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain}
+.software-updates__rail::-webkit-scrollbar{display:none}
+.software-update-card{position:relative;flex:0 0 17%;min-width:116px;height:clamp(260px,34vw,460px);aspect-ratio:auto;overflow:hidden;scroll-snap-align:start;padding:0;border:0;border-radius:6px;background:#111820;cursor:pointer;transition:flex-basis .62s cubic-bezier(.22,.8,.24,1),border-radius .3s ease}
+.software-update-card.is-active{flex-basis:65%}
+.software-update-card img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .65s cubic-bezier(.22,.8,.24,1),object-position .4s ease}
+.software-update-card:not(.is-active) img{object-position:center}
+.software-update-card:hover img{transform:scale(1.025)}
+.software-update-card__shade{position:absolute;inset:45% 0 0;background:linear-gradient(0deg,rgba(3,8,16,.74),transparent);opacity:0;transition:opacity .3s ease}
+.software-update-card__title{position:absolute;right:24px;bottom:23px;left:24px;color:#fff;text-align:left;font:600 clamp(18px,2.2vw,28px)/1.16 Inter,sans-serif;letter-spacing:-.035em;opacity:0;transform:translateY(8px);transition:opacity .28s ease,transform .4s ease}
+.software-update-card.is-active .software-update-card__shade,.software-update-card.is-active .software-update-card__title{opacity:1}
+.software-update-card.is-active .software-update-card__title{transform:translateY(0)}
+.software-updates__feature{align-items:flex-start;padding-top:25px}
+.software-updates__feature>p{max-width:800px;margin:0;color:#667085;font:400 18px/1.42 Inter,sans-serif;letter-spacing:-.02em}
+.software-updates__feature>p strong{color:#101828;font-weight:600}
+.software-updates__feature>a{min-height:48px;border:1px solid #c9c3ff;border-radius:5px;color:#635bff;font:600 14px Inter,sans-serif}
+.software-updates__feature>a:hover{border-color:#635bff;background:#635bff;color:#fff}
+.software-updates__controls button:focus-visible,.software-update-card:focus-visible,.software-updates__feature>a:focus-visible{outline:3px solid #635bff;outline-offset:3px}
+@media(max-width:900px){.software-update-card{flex-basis:21%;height:clamp(250px,40vw,380px)}.software-update-card.is-active{flex-basis:66%}.software-updates__feature>p{font-size:16px}}
+@media(max-width:680px){.software-updates{padding:56px 20px}.software-updates__header{align-items:flex-start;margin-bottom:21px}.software-updates__header h2{font-size:28px}.software-updates__header p{font-size:15px}.software-updates__controls{gap:6px}.software-updates__controls button{width:38px;height:38px}.software-updates__rail{gap:10px;margin-right:-20px;padding-right:20px}.software-update-card{flex-basis:19%;min-width:68px;height:250px;border-radius:5px}.software-update-card.is-active{flex-basis:76%}.software-update-card__title{right:18px;bottom:18px;left:18px;font-size:21px}.software-updates__feature{align-items:flex-start;flex-direction:column;gap:16px;padding-top:17px}.software-updates__feature>p{font-size:15px}.software-updates__feature>a{min-height:44px}}
+@media(prefers-reduced-motion:reduce){.software-update-card,.software-update-card img,.software-update-card__shade,.software-update-card__title,.software-updates__controls button{transition:none}}
 /* Final crop and contrast adjustments for the supplied full-bleed hero image. */
 @media(min-width:681px) {
   .software-page__image img { width:110%; max-width:none; }
@@ -77,3 +107,61 @@
 .software-page__image::after { background: linear-gradient(180deg, rgba(2,4,6,.56) 0%, transparent 28%), linear-gradient(90deg, rgba(2,4,6,.82) 0%, rgba(2,4,6,.58) 34%, rgba(2,4,6,.12) 72%, rgba(2,4,6,.08) 100%), linear-gradient(0deg, rgba(2,4,6,.82) 0%, rgba(2,4,6,.18) 42%, transparent 70%); }
 .software-header.is-scrolled { background: rgba(5,8,14,.97); }
 @media(max-width:680px) { .software-page__image::after { background: linear-gradient(0deg, rgba(2,4,6,.9) 0%, rgba(2,4,6,.62) 42%, rgba(2,4,6,.12) 82%), linear-gradient(90deg, rgba(2,4,6,.24), transparent 75%); } }
+
+/* Fixed alternating product highlights. */
+.software-updates {
+  padding: clamp(72px, 9vw, 128px) max(24px, calc((100vw - 1440px) / 2));
+  background: #05080e;
+  color: #fff;
+}
+.software-updates__inner { width: min(100%, 1232px); margin-inline: auto; }
+.software-updates__header { display: block; max-width: 760px; margin: 0 0 clamp(48px, 6vw, 76px); }
+.software-updates__header h2 {
+  margin: 0;
+  color: #fff;
+  font: 700 clamp(30px, 3.5vw, 42px)/1.12 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -.035em;
+}
+.software-updates__header p { max-width: 620px; margin: 14px 0 0; color: #D1D5DB; font: 400 18px/1.55 Inter, sans-serif; }
+.software-highlights { display: grid; gap: clamp(76px, 9vw, 120px); }
+.software-highlight {
+  display: grid;
+  grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr);
+  align-items: center;
+  gap: clamp(36px, 6vw, 88px);
+}
+.software-highlight__media { grid-column: 2; grid-row: 1; }
+.software-highlight__copy { grid-column: 1; grid-row: 1; }
+.software-highlight:nth-child(2) { grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); }
+.software-highlight:nth-child(2) .software-highlight__media { grid-column: 1; }
+.software-highlight:nth-child(2) .software-highlight__copy { grid-column: 2; }
+.software-highlight__media {
+  overflow: hidden;
+  border: 1px solid rgba(0,207,170,.2);
+  border-radius: 14px;
+  background: #070b14;
+  box-shadow: 0 18px 48px rgba(0,0,0,.28), 0 10px 34px rgba(0,207,170,.08);
+}
+.software-highlight__media img { display: block; width: 100%; max-width: 100%; height: auto; }
+.software-highlight__copy { max-width: 430px; }
+.software-highlight__copy h3 {
+  margin: 0;
+  color: #ffffff;
+  font: 800 clamp(30px, 3.6vw, 44px)/1.1 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -.035em;
+}
+.software-highlight__copy p { margin: 18px 0 0; color: #D1D5DB; font: 400 18px/1.65 Inter, sans-serif; }
+.software-highlight__action { display: inline-flex; margin-top: 22px; color: #00cfaa; font: 600 15px Inter,sans-serif; text-decoration: underline; text-underline-offset: 4px; }
+.software-highlight__action:focus-visible { outline: 2px solid #00cfaa; outline-offset: 4px; }
+@media(max-width:767px) {
+  .software-updates { padding: 64px 20px 76px; }
+  .software-updates__header { margin-bottom: 38px; }
+  .software-updates__header h2 { font-size: clamp(28px, 8vw, 34px); }
+  .software-updates__header p { margin-top: 10px; font-size: 15px; }
+  .software-highlights { gap: 52px; }
+  .software-highlight, .software-highlight:nth-child(2) { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .software-highlight__media, .software-highlight:nth-child(2) .software-highlight__media { grid-column: 1; grid-row: 1; }
+  .software-highlight__copy, .software-highlight:nth-child(2) .software-highlight__copy { grid-column: 1; grid-row: 2; max-width: none; text-align: left; }
+  .software-highlight__copy h3 { font-size: 26px; }
+  .software-highlight__copy p { margin-top: 10px; font-size: 15px; }
+}

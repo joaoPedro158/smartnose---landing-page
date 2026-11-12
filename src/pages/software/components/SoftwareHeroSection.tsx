@@ -11,7 +11,7 @@ export default function SoftwareHeroSection() {
           <a className="software-button software-button--secondary" href="#/hardware"><House size={16} aria-hidden="true" /> Página principal</a>
         </div>
       </div>
-      <a className="software-scroll-hint" href="#novidades" aria-label="Mais sobre a plataforma"><span>MONITORE · ANALISE · DECIDA</span><ArrowDownRight size={15} aria-hidden="true" /></a>
+      <a className="software-scroll-hint" href="#recursos" aria-label="Mais sobre a plataforma"><span>MONITORE · ANALISE · DECIDA</span><ArrowDownRight size={15} aria-hidden="true" /></a>
     </section>
   )
 }
