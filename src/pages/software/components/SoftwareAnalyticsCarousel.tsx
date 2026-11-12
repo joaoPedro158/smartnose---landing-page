@@ -1,4 +1,4 @@
-import { useState, type PointerEvent } from 'react'
+import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import heatmap from '../img/heatmap.png'
 import pairplot from '../img/paiplot.png'
@@ -27,21 +27,44 @@ const analyses = [
 
 export default function SoftwareAnalyticsCarousel() {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [pointerStart, setPointerStart] = useState<number | null>(null)
+  const [hasEntered, setHasEntered] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+  const pointerStartRef = useRef<number | null>(null)
+  const skipClickUntilRef = useRef(0)
 
-  const goTo = (index: number) => setActiveIndex((index + analyses.length) % analyses.length)
-  const goNext = () => goTo(activeIndex + 1)
-  const goPrevious = () => goTo(activeIndex - 1)
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section || hasEntered) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      setHasEntered(true)
+      observer.disconnect()
+    }, { threshold: 0.18 })
+
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [hasEntered])
+
+  const goTo = (index: number) => setActiveIndex((current) => {
+    const nextIndex = (index + analyses.length) % analyses.length
+    return nextIndex === current ? current : nextIndex
+  })
+  const goNext = () => setActiveIndex((current) => (current + 1) % analyses.length)
+  const goPrevious = () => setActiveIndex((current) => (current - 1 + analyses.length) % analyses.length)
 
   const handlePointerUp = (event: PointerEvent<HTMLDivElement>) => {
-    if (pointerStart === null) return
-    const distance = event.clientX - pointerStart
-    if (Math.abs(distance) > 48) distance < 0 ? goNext() : goPrevious()
-    setPointerStart(null)
+    if (pointerStartRef.current === null) return
+    const distance = event.clientX - pointerStartRef.current
+    if (Math.abs(distance) > 48) {
+      skipClickUntilRef.current = Date.now() + 500
+      distance < 0 ? goNext() : goPrevious()
+    }
+    pointerStartRef.current = null
   }
 
   return (
-    <section className="software-analytics" id="analises" aria-labelledby="software-analytics-title">
+    <section ref={sectionRef} className={`software-analytics${hasEntered ? ' is-visible' : ''}`} id="analises" aria-labelledby="software-analytics-title">
       <div className="software-analytics__inner">
         <header className="software-analytics__header">
           <div>
@@ -59,9 +82,11 @@ export default function SoftwareAnalyticsCarousel() {
           role="region"
           aria-roledescription="carrossel"
           aria-label="Análises de dados dos sensores"
-          onPointerDown={(event) => setPointerStart(event.clientX)}
+          onPointerDown={(event) => {
+            pointerStartRef.current = event.clientX
+          }}
           onPointerUp={handlePointerUp}
-          onPointerCancel={() => setPointerStart(null)}
+          onPointerCancel={() => { pointerStartRef.current = null }}
           onKeyDown={(event) => {
             if (event.key === 'ArrowLeft') goPrevious()
             if (event.key === 'ArrowRight') goNext()
@@ -84,7 +109,14 @@ export default function SoftwareAnalyticsCarousel() {
                   <button
                     className="software-analytics__image-button"
                     type="button"
-                    onClick={() => goTo(index)}
+                    onClick={(event) => {
+                      if (Date.now() < skipClickUntilRef.current) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        return
+                      }
+                      goTo(index)
+                    }}
                     tabIndex={0}
                     aria-label={isActive ? `Análise selecionada: ${analysis.title}` : `Mostrar ${analysis.title}`}
                   >
