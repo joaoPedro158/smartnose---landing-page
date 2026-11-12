@@ -71,19 +71,21 @@ export default function SoftwareAnalyticsCarousel() {
           <div className="software-analytics__rail">
             {analyses.map((analysis, index) => {
               const isActive = index === activeIndex
+              const relativeIndex = (index - activeIndex + analyses.length) % analyses.length
+              const position = relativeIndex === 0 ? 'is-active' : relativeIndex === 1 ? 'is-next' : 'is-previous'
               return (
                 <article
-                  className={`software-analytics__slide${isActive ? ' is-active' : ''}`}
+                  className={`software-analytics__slide ${position}`}
                   key={analysis.title}
                   aria-roledescription="slide"
                   aria-label={`${index + 1} de ${analyses.length}: ${analysis.title}`}
-                  aria-hidden={!isActive}
+                  aria-hidden="false"
                 >
                   <button
                     className="software-analytics__image-button"
                     type="button"
                     onClick={() => goTo(index)}
-                    tabIndex={isActive ? 0 : -1}
+                    tabIndex={0}
                     aria-label={isActive ? `Análise selecionada: ${analysis.title}` : `Mostrar ${analysis.title}`}
                   >
                     <img src={analysis.image} alt={analysis.alt} loading="lazy" decoding="async" draggable={false} />
