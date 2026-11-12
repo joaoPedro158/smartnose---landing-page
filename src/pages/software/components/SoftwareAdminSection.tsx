@@ -1,21 +1,21 @@
-import { Search, ShieldCheck, Users } from 'lucide-react'
+import { KeyRound, MonitorCog, Radio } from 'lucide-react'
 import adminPanel from '../img/painel de controle.png'
 
 const adminFeatures = [
   {
-    icon: Users,
-    title: 'Usuários em uma só lista',
-    description: 'Consulte nomes, e-mails, datas de acesso e perfis de administrador no mesmo painel.',
+    icon: KeyRound,
+    title: 'Controle de acesso',
+    description: 'Gerencie quem pode acessar a plataforma e mantenha as permissões organizadas em um só lugar.',
   },
   {
-    icon: Search,
-    title: 'Encontre cadastros rapidamente',
-    description: 'Use a busca por nome para localizar uma conta sem percorrer toda a lista.',
+    icon: MonitorCog,
+    title: 'Controle de dispositivo',
+    description: 'Acompanhe os dispositivos cadastrados e mantenha suas configurações sempre sob controle.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Ações de administração à mão',
-    description: 'Acesse os controles de edição e remoção diretamente em cada cadastro.',
+    icon: Radio,
+    title: 'Controle de sensores',
+    description: 'Visualize os sensores disponíveis e organize o monitoramento de cada ambiente.',
   },
 ]
 
