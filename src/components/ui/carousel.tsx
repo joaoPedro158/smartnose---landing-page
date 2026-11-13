@@ -69,21 +69,21 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
     <div className="[perspective:1200px] [transform-style:preserve-3d]">
       <li
         ref={slideRef}
-        className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100 transition-all duration-300 ease-in-out w-[70vmin] h-[70vmin] mx-[4vmin] z-10"
+        className="flex flex-1 flex-col items-center justify-center relative text-center text-white opacity-100 transition-all duration-300 ease-in-out w-[86vmin] md:w-[96vmin] max-w-[920px] aspect-[16/11] mx-[2.5vmin] z-10"
         onClick={() => handleSlideClick(index)}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{
           transform:
             current !== index
-              ? "scale(0.98) rotateX(8deg)"
+              ? "scale(0.96) rotateX(6deg)"
               : "scale(1) rotateX(0deg)",
           transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
           transformOrigin: "bottom",
         }}
       >
         <div
-          className="absolute top-0 left-0 w-full h-full bg-[#1D1F2F] rounded-[1%] overflow-hidden transition-all duration-150 ease-out"
+          className="absolute top-0 left-0 w-full h-full bg-[#05080E] border border-[#00cfaa]/20 rounded-xl overflow-hidden transition-all duration-150 ease-out shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
           style={{
             transform:
               current === index
@@ -92,9 +92,9 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
           }}
         >
           <img
-            className="absolute inset-0 w-[120%] h-[120%] object-cover transition-opacity duration-600 ease-in-out"
+            className="absolute inset-0 w-full h-full object-contain p-3 md:p-6 transition-opacity duration-600 ease-in-out"
             style={{
-              opacity: current === index ? 1 : 0.5,
+              opacity: current === index ? 1 : 0.45,
             }}
             alt={title}
             src={src}
@@ -121,11 +121,11 @@ export default function Carousel({ slides, current, onPrevious, onNext, onSlideC
 
   return (
     <div
-      className="relative w-[70vmin] h-[70vmin] mx-auto"
+      className="relative w-[86vmin] md:w-[96vmin] max-w-[920px] aspect-[16/11] mx-auto"
       aria-labelledby={`carousel-heading-${id}`}
     >
       <ul
-        className="absolute flex mx-[-4vmin] transition-transform duration-1000 ease-in-out"
+        className="absolute flex mx-[-2.5vmin] transition-transform duration-1000 ease-in-out"
         style={{
           transform: `translateX(-${current * (100 / slides.length)}%)`,
         }}
