@@ -214,8 +214,6 @@
   letter-spacing: -.035em;
 }
 .software-analytics__header p { max-width: 620px; margin: 12px 0 0; color: #D1D5DB; font: 400 17px/1.55 Inter, sans-serif; }
-.software-analytics.is-visible .software-analytics__header h2 { animation: analytics-heading-arrive .65s cubic-bezier(.16, 1, .3, 1) both; }
-.software-analytics.is-visible .software-analytics__header p { animation: analytics-heading-arrive .65s .1s cubic-bezier(.16, 1, .3, 1) both; }
 .software-analytics__controls { display: flex; flex: 0 0 auto; gap: 9px; }
 .software-analytics__controls button {
   display: grid;
@@ -232,7 +230,6 @@
 .software-analytics__controls button:hover { transform: translateY(-2px); border-color: #00CFAA; background: rgba(0, 207, 170, .15); box-shadow: 0 6px 18px rgba(0,207,170,.12); }
 .software-analytics__controls button:active { transform: translateY(0) scale(.96); }
 .software-analytics__stage { overflow: hidden; touch-action: pan-y; outline: none; perspective: 1500px; }
-.software-analytics.is-visible .software-analytics__stage { animation: analytics-stage-arrive .72s .14s cubic-bezier(.16, 1, .3, 1) both; }
 .software-analytics__stage:focus-visible { border-radius: 15px; outline: 2px solid #00E5C0; outline-offset: 5px; }
 .software-analytics__rail { position: relative; height: clamp(390px, 43vw, 560px); }
 .software-analytics__slide {
@@ -247,27 +244,27 @@
   border: 1px solid rgba(0, 207, 170, .16);
   border-radius: 13px;
   background: #05080e;
-  opacity: .58;
-  transform: translate3d(calc(-50% - 75%), 10px, 0) scale(.85) rotateY(6deg);
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  transition: transform .68s cubic-bezier(.16, 1, .3, 1), opacity .48s ease, border-color .42s ease, box-shadow .48s ease;
+  will-change: transform, opacity, filter;
+  transition: border-color .42s ease, box-shadow .48s ease;
   cursor: default;
 }
 .software-analytics__slide::after { position: absolute; z-index: 1; inset: 0; border-radius: inherit; background: linear-gradient(145deg, rgba(3,10,20,.38), rgba(3,10,20,.12)); content: ''; opacity: 1; pointer-events: none; transition: opacity .34s ease; }
-.software-analytics__slide.is-active { z-index: 3; width: min(76%, 920px); border-color: rgba(0, 207, 170, .4); box-shadow: 0 22px 56px rgba(0,0,0,.34), 0 10px 34px rgba(0,207,170,.12); opacity: 1; transform: translate3d(-50%, 0, 0) scale(1) rotateY(0); }
+.software-analytics__slide.is-active { z-index: 3; width: min(76%, 920px); border-color: rgba(0, 207, 170, .4); box-shadow: 0 22px 56px rgba(0,0,0,.34), 0 10px 34px rgba(0,207,170,.12); }
 .software-analytics__slide.is-active::after { opacity: 0; }
-.software-analytics__slide.is-next { transform: translate3d(calc(-50% + 75%), 10px, 0) scale(.85) rotateY(-6deg); }
 .software-analytics__slide.is-active:hover { box-shadow: 0 26px 60px rgba(0,0,0,.36), 0 12px 38px rgba(0,207,170,.16); }
 .software-analytics__image-button { display: block; width: 100%; height: 100%; min-height: 100%; padding: 0; overflow: hidden; border: 0; background: #05080e; cursor: pointer; }
 .software-analytics__image-button img { display: block; width: 100%; height: 100%; min-height: clamp(390px, 43vw, 560px); object-fit: contain; background: #05080e; }
 .software-analytics__slide:not(.is-active) .software-analytics__image-button img { object-fit: cover; object-position: center; }
-.software-analytics__details { width: min(76%, 920px); min-height: 88px; margin: 20px auto 0; animation: analytics-copy-arrive .48s cubic-bezier(.16, 1, .3, 1) both; }
+.software-analytics__details {
+  width: min(76%, 920px);
+  min-height: 88px;
+  margin: 20px auto 0;
+}
 .software-analytics__details h3 { margin: 0; color: #fff; font: 700 clamp(20px, 2.5vw, 28px)/1.2 'Plus Jakarta Sans', sans-serif; letter-spacing: -.025em; }
 .software-analytics__details p { max-width: 660px; margin: 7px 0 0; color: #D1D5DB; font: 400 15px/1.5 Inter, sans-serif; }
 @keyframes analytics-copy-arrive { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes analytics-heading-arrive { from { opacity: .35; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes analytics-stage-arrive { from { opacity: .65; transform: scale(.975); } to { opacity: 1; transform: scale(1); } }
 .software-analytics__pagination { display: flex; align-items: center; gap: 8px; width: min(76%, 920px); margin: 18px auto 0; }
 .software-analytics__pagination button { width: 42px; height: 4px; padding: 0; border: 0; border-radius: 5px; background: rgba(255,255,255,.2); cursor: pointer; transition: width .3s cubic-bezier(.16, 1, .3, 1), background .22s ease, box-shadow .22s ease; }
 .software-analytics__pagination button.is-active { width: 76px; background: #00CFAA; box-shadow: 0 0 15px rgba(0,207,170,.38); }
@@ -282,8 +279,6 @@
   .software-analytics__rail { height: 350px; }
   .software-analytics__slide { border-radius: 9px; }
   .software-analytics__slide.is-active { width: 76%; }
-  .software-analytics__slide.is-previous { transform: translate3d(calc(-50% - 70%), 8px, 0) scale(.8) rotateY(5deg); }
-  .software-analytics__slide.is-next { transform: translate3d(calc(-50% + 70%), 8px, 0) scale(.8) rotateY(-5deg); }
   .software-analytics__image-button img { min-height: 350px; }
   .software-analytics__details { width: 76%; min-height: 88px; margin-top: 16px; }
   .software-analytics__details h3 { font-size: 19px; }
@@ -297,8 +292,7 @@
   .software-analytics__image-button img { min-height: 300px; }
 }
 @media(prefers-reduced-motion:reduce) {
-  .software-analytics.is-visible .software-analytics__header h2,.software-analytics.is-visible .software-analytics__header p,.software-analytics.is-visible .software-analytics__stage { animation: none; }
-  .software-analytics__controls button,.software-analytics__slide::after,.software-analytics__pagination button { transition: none; }
+  .software-analytics__controls button,.software-analytics__slide,.software-analytics__slide::after,.software-analytics__pagination button { transition: none; }
   .software-analytics__slide { transition: none; }
   .software-analytics__details { animation: none; }
 }
