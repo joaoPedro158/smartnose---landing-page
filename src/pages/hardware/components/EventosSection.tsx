@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 import goRnPresentation from '../img/goRN_apresentação.jpg'
@@ -60,28 +60,53 @@ const EVENTS: EventItem[] = [
 export default function EventosSection() {
   const [eventIndex, setEventIndex] = useState(0)
   const [photoIndex, setPhotoIndex] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(true)
-  const [isHovered, setIsHovered] = useState(false)
-  const [isFocused, setIsFocused] = useState(false)
+  const [isHolding, setIsHolding] = useState(false)
+
+  const viewerRef = useRef<HTMLDivElement>(null)
+  const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null)
+  const holdTimerRef = useRef<number | null>(null)
+
   const event = EVENTS[eventIndex]
   const hasPhotos = Boolean(event.photos && event.photos.length > 0)
   const photo = hasPhotos ? event.photos![photoIndex] : null
 
+  function navigateStory(direction: number) {
+    if (!hasPhotos) return
+    if (direction > 0) {
+      if (photoIndex + 1 < event.photos!.length) {
+        setPhotoIndex((current) => current + 1)
+      } else {
+        const nextIndex = (eventIndex + 1) % EVENTS.length
+        setEventIndex(nextIndex)
+        setPhotoIndex(0)
+      }
+    } else {
+      if (photoIndex - 1 >= 0) {
+        setPhotoIndex((current) => current - 1)
+      } else {
+        const prevIndex = (eventIndex - 1 + EVENTS.length) % EVENTS.length
+        setEventIndex(prevIndex)
+        const prevPhotos = EVENTS[prevIndex].photos
+        setPhotoIndex(prevPhotos && prevPhotos.length > 0 ? prevPhotos.length - 1 : 0)
+      }
+    }
+  }
+
   useEffect(() => {
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const updateMotionPreference = () => setIsPlaying(!motionPreference.matches)
-    updateMotionPreference()
-    motionPreference.addEventListener('change', updateMotionPreference)
-    return () => motionPreference.removeEventListener('change', updateMotionPreference)
+    return () => {
+      if (holdTimerRef.current) {
+        window.clearTimeout(holdTimerRef.current)
+      }
+    }
   }, [])
 
   useEffect(() => {
-    if (!isPlaying || isHovered || isFocused || !hasPhotos) return
+    if (!hasPhotos || isHolding) return
     const timer = window.setTimeout(() => {
-      setPhotoIndex((current) => (current + 1) % event.photos!.length)
+      navigateStory(1)
     }, 6000)
     return () => window.clearTimeout(timer)
-  }, [event.photos, hasPhotos, isFocused, isHovered, isPlaying])
+  }, [eventIndex, photoIndex, isHolding, hasPhotos])
 
   function selectEvent(index: number) {
     setEventIndex(index)
@@ -89,8 +114,91 @@ export default function EventosSection() {
   }
 
   function movePhoto(direction: number) {
+    navigateStory(direction)
+  }
+
+  function handleTouchStart(e: React.TouchEvent<HTMLDivElement>) {
     if (!hasPhotos) return
-    setPhotoIndex((current) => (current + direction + event.photos!.length) % event.photos!.length)
+    const touch = e.touches[0]
+    touchStartRef.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+      time: Date.now(),
+    }
+
+    if (holdTimerRef.current) {
+      window.clearTimeout(holdTimerRef.current)
+    }
+
+    holdTimerRef.current = window.setTimeout(() => {
+      setIsHolding(true)
+    }, 180)
+  }
+
+  function handleTouchMove(e: React.TouchEvent<HTMLDivElement>) {
+    if (!hasPhotos || !touchStartRef.current) return
+    const touch = e.touches[0]
+    const deltaX = touch.clientX - touchStartRef.current.x
+    const deltaY = touch.clientY - touchStartRef.current.y
+
+    if (Math.abs(deltaY) > 12 && Math.abs(deltaY) > Math.abs(deltaX)) {
+      if (holdTimerRef.current) {
+        window.clearTimeout(holdTimerRef.current)
+        holdTimerRef.current = null
+      }
+      setIsHolding(false)
+    }
+  }
+
+  function handleTouchEnd(e: React.TouchEvent<HTMLDivElement>) {
+    if (!hasPhotos) return
+
+    if (holdTimerRef.current) {
+      window.clearTimeout(holdTimerRef.current)
+      holdTimerRef.current = null
+    }
+
+    const wasHolding = isHolding
+    setIsHolding(false)
+
+    if (!touchStartRef.current) return
+    const touch = e.changedTouches[0]
+    const deltaX = touch.clientX - touchStartRef.current.x
+    const deltaY = touch.clientY - touchStartRef.current.y
+    const elapsed = Date.now() - touchStartRef.current.time
+    touchStartRef.current = null
+
+    // Horizontal swipe gesture
+    if (Math.abs(deltaX) >= 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+      if (deltaX < 0) {
+        navigateStory(1)
+      } else {
+        navigateStory(-1)
+      }
+      return
+    }
+
+    // Tap navigation
+    if (elapsed < 250 && Math.abs(deltaX) < 15 && Math.abs(deltaY) < 15 && !wasHolding) {
+      const rect = viewerRef.current?.getBoundingClientRect()
+      if (rect) {
+        const tapX = touch.clientX - rect.left
+        if (tapX < rect.width * 0.35) {
+          navigateStory(-1)
+        } else {
+          navigateStory(1)
+        }
+      }
+    }
+  }
+
+  function handleTouchCancel() {
+    if (holdTimerRef.current) {
+      window.clearTimeout(holdTimerRef.current)
+      holdTimerRef.current = null
+    }
+    setIsHolding(false)
+    touchStartRef.current = null
   }
 
   return (
@@ -110,13 +218,7 @@ export default function EventosSection() {
           </p>
         </header>
 
-        <div
-          className="events-showcase"
-          onFocusCapture={() => setIsFocused(true)}
-          onBlurCapture={(focusEvent) => {
-            if (!focusEvent.currentTarget.contains(focusEvent.relatedTarget as Node | null)) setIsFocused(false)
-          }}
-        >
+        <div className="events-showcase">
           <nav className="events-selector" aria-label="Selecionar evento">
             <p className="events-selector__eyebrow">
               EVENTOS <span>01 — {String(EVENTS.length).padStart(2, '0')}</span>
@@ -143,12 +245,19 @@ export default function EventosSection() {
           </nav>
 
           <div
-            className={`events-gallery__viewer${isPlaying && !isHovered && !isFocused && hasPhotos ? '' : ' is-progress-paused'}`}
+            ref={viewerRef}
+            className={`events-gallery__viewer${
+              hasPhotos && !isHolding ? '' : ' is-progress-paused'
+            }${isHolding ? ' is-holding' : ''}`}
             role="region"
             aria-roledescription={event.videoUrl ? 'vídeo' : 'carrossel'}
             aria-label={`${event.videoUrl ? 'Vídeo' : 'Fotos'} do evento ${event.name}`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseDown={() => setIsHolding(true)}
+            onMouseUp={() => setIsHolding(false)}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchCancel}
           >
             {hasPhotos && (
               <div className="events-gallery__progress" role="group" aria-label={`Selecionar foto do evento ${event.name}`}>
@@ -162,7 +271,7 @@ export default function EventosSection() {
                     aria-current={index === photoIndex ? 'true' : undefined}
                   >
                     <span className="events-gallery__progress-track" aria-hidden="true">
-                      <span className="events-gallery__progress-fill" key={`${item.src}-${index === photoIndex ? photoIndex : 'idle'}`} />
+                      <span className="events-gallery__progress-fill" key={`fill-${eventIndex}-${photoIndex}-${index}`} />
                     </span>
                   </button>
                 ))}
@@ -171,7 +280,7 @@ export default function EventosSection() {
 
             <div
               className={`events-gallery__image-wrap${event.videoUrl ? ' has-video' : ''}`}
-              aria-live={isPlaying && !isHovered && !isFocused && hasPhotos ? 'off' : 'polite'}
+              aria-live={hasPhotos && !isHolding ? 'off' : 'polite'}
               aria-atomic="true"
             >
               {event.videoUrl ? (

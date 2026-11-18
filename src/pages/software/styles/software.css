@@ -634,7 +634,6 @@
 }
 
 .software-analytics__image {
-  display: grid;
   min-width: 0;
   aspect-ratio: 4 / 3;
   margin: 0;
@@ -648,7 +647,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: fill;
 }
 
 .software-analytics__caption {
@@ -893,7 +892,7 @@
   }
 
   .software-analytics__image {
-    aspect-ratio: 16 / 9;
+ 
     border-radius: 8px;
   }
 
