@@ -1019,7 +1019,7 @@
   }
 
   .software-updates__header {
-    margin-bottom: 36px;
+    margin-bottom: 110px;
   }
 
   .software-updates__header h2 {
@@ -1032,13 +1032,14 @@
   }
 
   .software-highlights {
-    gap: 52px;
+    gap: 40px;
   }
 
   .software-highlight,
   .software-highlight:nth-child(even) {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
+    margin-bottom: 47px;
   }
 
   .software-highlight__media,
