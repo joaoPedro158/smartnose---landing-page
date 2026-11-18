@@ -937,8 +937,8 @@
 
   /* Hero background: focal point adjustment */
   .software-page__image img {
-    width: 130%;
-    object-position: 58% center;
+    width: 100%;
+    object-position: center center;
   }
 
   .software-page__image::after {
@@ -971,10 +971,14 @@
     padding-top: max(96px, env(safe-area-inset-top));
     padding-bottom: max(32px, env(safe-area-inset-bottom));
     justify-content: flex-end;
+    align-items: center;
   }
 
   .software-hero__copy {
+    width: 100%;
+    max-width: none;
     margin-top: auto;
+    text-align: center;
   }
 
   .software-hero h1 {
@@ -984,10 +988,7 @@
   }
 
   .software-hero__description {
-    max-width: none;
-    font-size: 13.5px;
-    line-height: 1.5;
-    margin-top: 10px;
+    display: none;
   }
 
   .software-hero__actions {
