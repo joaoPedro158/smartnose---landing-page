@@ -13,7 +13,14 @@ import secitexGroup from '../img/equipe_Secitex.jpg'
 import expotecPresentation from '../img/apresentação_expotec.jpg'
 import expotecDemo from '../img/Apresentação_expotec(1).jpg'
 
-const EVENTS = [
+type EventItem = {
+  name: string
+  description: string
+  videoUrl?: string
+  photos?: Array<{ src: string; alt: string }>
+}
+
+const EVENTS: EventItem[] = [
   {
     name: 'goRN',
     description: 'Apresentação do SmartNose e troca de ideias com o público no goRN.',
@@ -43,6 +50,11 @@ const EVENTS = [
       { src: expotecDemo, alt: 'Demonstração do SmartNose ao público na Expotec' },
     ],
   },
+  {
+    name: 'Entrevista',
+    description: 'Entrevista especial detalhando o desenvolvimento, a proposta e as aplicações do SmartNose.',
+    videoUrl: 'https://www.youtube-nocookie.com/embed/-rByeQeiA48?autoplay=1&controls=1&rel=0&playsinline=1',
+  },
 ]
 
 export default function EventosSection() {
@@ -52,7 +64,8 @@ export default function EventosSection() {
   const [isHovered, setIsHovered] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const event = EVENTS[eventIndex]
-  const photo = event.photos[photoIndex]
+  const hasPhotos = Boolean(event.photos && event.photos.length > 0)
+  const photo = hasPhotos ? event.photos![photoIndex] : null
 
   useEffect(() => {
     const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -63,12 +76,12 @@ export default function EventosSection() {
   }, [])
 
   useEffect(() => {
-    if (!isPlaying || isHovered || isFocused) return
+    if (!isPlaying || isHovered || isFocused || !hasPhotos) return
     const timer = window.setTimeout(() => {
-      setPhotoIndex((current) => (current + 1) % event.photos.length)
+      setPhotoIndex((current) => (current + 1) % event.photos!.length)
     }, 6000)
     return () => window.clearTimeout(timer)
-  }, [event.photos.length, isFocused, isHovered, isPlaying])
+  }, [event.photos, hasPhotos, isFocused, isHovered, isPlaying])
 
   function selectEvent(index: number) {
     setEventIndex(index)
@@ -76,7 +89,8 @@ export default function EventosSection() {
   }
 
   function movePhoto(direction: number) {
-    setPhotoIndex((current) => (current + direction + event.photos.length) % event.photos.length)
+    if (!hasPhotos) return
+    setPhotoIndex((current) => (current + direction + event.photos!.length) % event.photos!.length)
   }
 
   return (
@@ -104,7 +118,9 @@ export default function EventosSection() {
           }}
         >
           <nav className="events-selector" aria-label="Selecionar evento">
-            <p className="events-selector__eyebrow">EVENTOS <span>01 — 03</span></p>
+            <p className="events-selector__eyebrow">
+              EVENTOS <span>01 — {String(EVENTS.length).padStart(2, '0')}</span>
+            </p>
             <div className="events-selector__options">
               {EVENTS.map((item, index) => (
                 <button
@@ -116,7 +132,9 @@ export default function EventosSection() {
                 >
                   <span className="events-selector__number">0{index + 1}</span>
                   <span className="events-selector__name">{item.name}</span>
-                  <span className="events-selector__count">{String(item.photos.length).padStart(2, '0')} fotos</span>
+                  <span className="events-selector__count">
+                    {item.videoUrl ? 'Vídeo' : `${String(item.photos?.length || 0).padStart(2, '0')} fotos`}
+                  </span>
                   <ArrowRight className="events-selector__arrow" size={18} aria-hidden="true" />
                 </button>
               ))}
@@ -125,45 +143,70 @@ export default function EventosSection() {
           </nav>
 
           <div
-            className={`events-gallery__viewer${isPlaying && !isHovered && !isFocused ? '' : ' is-progress-paused'}`}
+            className={`events-gallery__viewer${isPlaying && !isHovered && !isFocused && hasPhotos ? '' : ' is-progress-paused'}`}
             role="region"
-            aria-roledescription="carrossel"
-            aria-label={`Fotos do evento ${event.name}`}
+            aria-roledescription={event.videoUrl ? 'vídeo' : 'carrossel'}
+            aria-label={`${event.videoUrl ? 'Vídeo' : 'Fotos'} do evento ${event.name}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <div className="events-gallery__progress" role="group" aria-label={`Selecionar foto do evento ${event.name}`}>
-              {event.photos.map((item, index) => (
-                <button
-                  className={`events-gallery__progress-step${index === photoIndex ? ' is-current' : ''}${index < photoIndex ? ' is-complete' : ''}`}
-                  type="button"
-                  key={item.src}
-                  onClick={() => setPhotoIndex(index)}
-                  aria-label={`Mostrar foto ${index + 1} de ${event.photos.length}: ${item.alt}`}
-                  aria-current={index === photoIndex ? 'true' : undefined}
-                >
-                  <span className="events-gallery__progress-track" aria-hidden="true">
-                    <span className="events-gallery__progress-fill" key={`${item.src}-${index === photoIndex ? photoIndex : 'idle'}`} />
-                  </span>
-                </button>
-              ))}
-            </div>
-            <div className="events-gallery__image-wrap" aria-live={isPlaying && !isHovered && !isFocused ? 'off' : 'polite'} aria-atomic="true">
-              <img className="events-gallery__image" src={photo.src} alt={photo.alt} key={photo.src} />
+            {hasPhotos && (
+              <div className="events-gallery__progress" role="group" aria-label={`Selecionar foto do evento ${event.name}`}>
+                {event.photos!.map((item, index) => (
+                  <button
+                    className={`events-gallery__progress-step${index === photoIndex ? ' is-current' : ''}${index < photoIndex ? ' is-complete' : ''}`}
+                    type="button"
+                    key={item.src}
+                    onClick={() => setPhotoIndex(index)}
+                    aria-label={`Mostrar foto ${index + 1} de ${event.photos!.length}: ${item.alt}`}
+                    aria-current={index === photoIndex ? 'true' : undefined}
+                  >
+                    <span className="events-gallery__progress-track" aria-hidden="true">
+                      <span className="events-gallery__progress-fill" key={`${item.src}-${index === photoIndex ? photoIndex : 'idle'}`} />
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div
+              className={`events-gallery__image-wrap${event.videoUrl ? ' has-video' : ''}`}
+              aria-live={isPlaying && !isHovered && !isFocused && hasPhotos ? 'off' : 'polite'}
+              aria-atomic="true"
+            >
+              {event.videoUrl ? (
+                <iframe
+                  className="events-gallery__video"
+                  src={event.videoUrl}
+                  title={`Vídeo do evento ${event.name}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              ) : (
+                photo && <img className="events-gallery__image" src={photo.src} alt={photo.alt} key={photo.src} />
+              )}
+
               <div className="events-gallery__caption">
                 <span className="events-gallery__event-index">EVENTO 0{eventIndex + 1}</span>
                 <h3>{event.name}</h3>
                 <p>{event.description}</p>
-                <span className="events-gallery__counter">{String(photoIndex + 1).padStart(2, '0')} <span aria-hidden="true">/</span> {String(event.photos.length).padStart(2, '0')}</span>
+                {hasPhotos && (
+                  <span className="events-gallery__counter">
+                    {String(photoIndex + 1).padStart(2, '0')} <span aria-hidden="true">/</span> {String(event.photos!.length).padStart(2, '0')}
+                  </span>
+                )}
               </div>
-              <div className="events-gallery__arrows" role="group" aria-label="Navegar pelas fotos">
-                <button className="events-arrow" type="button" onClick={() => movePhoto(-1)} aria-label="Foto anterior">
-                  <ArrowLeft size={19} aria-hidden="true" />
-                </button>
-                <button className="events-arrow" type="button" onClick={() => movePhoto(1)} aria-label="Próxima foto">
-                  <ArrowRight size={19} aria-hidden="true" />
-                </button>
-              </div>
+
+              {hasPhotos && (
+                <div className="events-gallery__arrows" role="group" aria-label="Navegar pelas fotos">
+                  <button className="events-arrow" type="button" onClick={() => movePhoto(-1)} aria-label="Foto anterior">
+                    <ArrowLeft size={19} aria-hidden="true" />
+                  </button>
+                  <button className="events-arrow" type="button" onClick={() => movePhoto(1)} aria-label="Próxima foto">
+                    <ArrowRight size={19} aria-hidden="true" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
