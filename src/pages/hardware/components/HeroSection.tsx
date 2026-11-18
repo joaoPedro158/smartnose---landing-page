@@ -1,24 +1,6 @@
-import { useEffect, useRef } from 'react'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
-import heroVideo from '../img/hero_video.mp4'
-import heroPoster from '../img/img_prototipo.jpg'
 
 export default function HeroSection() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const syncPlayback = () => {
-      if (motionPreference.matches) video.pause()
-      else void video.play().catch(() => undefined)
-    }
-    syncPlayback()
-    motionPreference.addEventListener('change', syncPlayback)
-    return () => motionPreference.removeEventListener('change', syncPlayback)
-  }, [])
-
   return (
     <section
       id="hero"
@@ -132,22 +114,18 @@ export default function HeroSection() {
             <div className="w-full mt-8 border-t border-white/10 opacity-initial animate-fade-up-delay-3" />
           </div>
 
-          {/* ── RIGHT COLUMN — Hero Image ────────────────────────────── */}
+          {/* ── RIGHT COLUMN — YouTube Video Showcase ────────────────── */}
           <div className="col-span-1 lg:col-span-6 opacity-initial animate-scale-in">
-            <div className="relative overflow-hidden rounded-xl bg-black">
-                <div className="hero-video-frame">
-                  <video
-                    ref={videoRef}
-                    className="hero-video"
-                    src={heroVideo}
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    poster={heroPoster}
-                    aria-label="Demonstração em vídeo do SmartNose"
-                  />
-                </div>
+            <div className="relative overflow-hidden rounded-xl bg-black border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+              <div className="hero-video-frame">
+                <iframe
+                  className="w-full h-full border-0 absolute inset-0"
+                  src="https://www.youtube-nocookie.com/embed/AuyYpgN37-s?autoplay=1&mute=1&loop=1&playlist=AuyYpgN37-s&controls=0&playsinline=1&rel=0&modestbranding=1"
+                  title="Demonstração do SmartNose"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
             </div>
           </div>
           {/* ── End Right Column ─────────────────────────────────────── */}
