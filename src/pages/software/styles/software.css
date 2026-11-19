@@ -1087,7 +1087,6 @@
 
   /* Hero */
   .software-hero {
-    width: calc(100% - 36px);
     height: auto;
     min-height: 100svh;
     padding-top: max(96px, env(safe-area-inset-top));
@@ -1100,6 +1099,7 @@
     width: 100%;
     max-width: none;
     margin-top: auto;
+    margin-inline: auto;
     text-align: center;
   }
 
