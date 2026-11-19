@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, type CSSProperties } from 'react'
 import { Activity, ArrowRight, Menu, X } from 'lucide-react'
 
 type HeaderPage = 'hardware' | 'software'
@@ -83,12 +83,22 @@ export default function SharedHeader({ page }: { page: HeaderPage }) {
         <div className="hidden lg:flex items-center shrink-0">
           <a href={ctaHref} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-5 py-2.5 rounded-full font-jakarta font-bold text-[12px] uppercase tracking-[0.6px] text-[#020617] transition-all duration-300 hover:scale-[1.04] hover:brightness-110" style={{ background: 'linear-gradient(90deg,#00CFAA 0%,#0099CC 100%)', boxShadow: '0 0 25px -3px rgba(0,207,170,.35)' }}>{ctaLabel}<ArrowRight size={14}/></a>
         </div>
-        <button id="btn-menu-mobile" type="button" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menuOpen} aria-controls="mobile-menu" onClick={() => setMenuOpen(v => !v)} className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-white/10 bg-white/[0.05] text-white transition-all duration-200 hover:bg-white/10">{menuOpen ? <X size={20}/> : <Menu size={20}/>}</button>
+        <button id="btn-menu-mobile" type="button" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menuOpen} aria-controls="mobile-menu" onClick={() => setMenuOpen(v => !v)} className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-white/10 bg-white/[0.05] text-white transition-all duration-200 hover:bg-white/10">{menuOpen ? <X size={20} className="animate-menu-icon-in"/> : <Menu size={20} className="animate-menu-icon-in"/>}</button>
       </div>
-      {menuOpen && <div id="mobile-menu" className="lg:hidden border-t border-white/[0.08]" style={{ background: 'rgba(5,8,14,.98)', backdropFilter: 'blur(16px)' }}><nav className="max-w-[1280px] mx-auto px-8 py-6 flex flex-col gap-1" aria-label="Navegação mobile">
-        {links.map(link => { const external = 'external' in link; const section = external ? '' : link.href.slice(1); const active = section !== '' && activeSection === section; return <a key={link.href} href={link.href} onClick={e => { if (!external) { e.preventDefault(); navigate(link.href) } else setMenuOpen(false) }} aria-current={active ? 'page' : undefined} className={`flex items-center justify-between px-4 py-3.5 rounded-lg font-jakarta font-bold text-[13px] uppercase tracking-[0.65px] ${active ? 'text-[#00E5C0] bg-[rgba(0,229,192,0.08)]' : 'text-[#9CA3AF] hover:text-white hover:bg-white/[0.04]'}`}>{link.label}{active && <span className="w-1.5 h-1.5 rounded-full bg-[#00E5C0]"/>}</a> })}
-        <div className="mt-4 pt-4 border-t border-white/[0.08]"><a href={ctaHref} onClick={() => setMenuOpen(false)} className="flex items-center justify-center gap-2 w-full px-5 py-3.5 rounded-full font-jakarta font-bold text-[13px] uppercase tracking-[0.6px] text-[#020617]" style={{ background: 'linear-gradient(90deg,#00CFAA 0%,#0099CC 100%)' }}>{ctaLabel}<ArrowRight size={16}/></a></div>
-      </nav></div>}
+      <div
+        id="mobile-menu"
+        className="mobile-menu-panel lg:hidden"
+        data-open={menuOpen}
+        aria-hidden={!menuOpen}
+        style={{ background: 'rgba(5,8,14,.98)', backdropFilter: 'blur(16px)' }}
+      >
+        <div className="mobile-menu-clip">
+          <nav className="max-w-[1280px] mx-auto px-8 py-6 flex flex-col gap-1" aria-label="Navegação mobile">
+            {links.map((link, index) => { const external = 'external' in link; const section = external ? '' : link.href.slice(1); const active = section !== '' && activeSection === section; return <a key={link.href} href={link.href} onClick={e => { if (!external) { e.preventDefault(); navigate(link.href) } else setMenuOpen(false) }} aria-current={active ? 'page' : undefined} className={`mobile-menu-link flex items-center justify-between px-4 py-3.5 rounded-lg font-jakarta font-bold text-[13px] uppercase tracking-[0.65px] ${active ? 'text-[#00E5C0] bg-[rgba(0,229,192,0.08)]' : 'text-[#9CA3AF] hover:text-white hover:bg-white/[0.04]'}`} style={{ '--menu-index': index } as CSSProperties}>{link.label}{active && <span className="w-1.5 h-1.5 rounded-full bg-[#00E5C0]"/>}</a> })}
+            <div className="mobile-menu-link mt-4 pt-4 border-t border-white/[0.08]" style={{ '--menu-index': links.length } as CSSProperties}><a href={ctaHref} onClick={() => setMenuOpen(false)} className="flex items-center justify-center gap-2 w-full px-5 py-3.5 rounded-full font-jakarta font-bold text-[13px] uppercase tracking-[0.6px] text-[#020617]" style={{ background: 'linear-gradient(90deg,#00CFAA 0%,#0099CC 100%)' }}>{ctaLabel}<ArrowRight size={16}/></a></div>
+          </nav>
+        </div>
+      </div>
     </header>
   )
 }
