@@ -776,6 +776,128 @@
   height: auto;
 }
 
+.software-admin__preview-trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.software-admin__preview-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 10px;
+  background: rgba(5, 8, 14, .34);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  color: #fff;
+  opacity: 0;
+  transform: scale(.92);
+  transition: opacity .18s ease, transform .18s ease, background-color .18s ease;
+  pointer-events: none;
+}
+
+.software-admin__preview-trigger:hover .software-admin__preview-icon,
+.software-admin__preview-trigger:focus-visible .software-admin__preview-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.software-admin__preview-trigger:hover .software-admin__preview-icon {
+  background: rgba(0, 153, 204, .42);
+}
+
+.software-admin__preview-trigger:focus-visible {
+  outline: 2px solid #00e5c0;
+  outline-offset: 3px;
+}
+
+.software-admin__lightbox {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: flex;
+  padding: clamp(16px, 4vw, 56px);
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  background: rgba(2, 4, 6, .92);
+  cursor: zoom-out;
+}
+
+.software-admin__lightbox-image {
+  display: block;
+  flex: none;
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  border: 1px solid rgba(0, 207, 170, .4);
+  border-radius: 10px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .55);
+  cursor: default;
+}
+
+.software-admin__lightbox-tools {
+  position: fixed;
+  z-index: 1;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 14px;
+  background: rgba(10, 18, 25, .38);
+  color: #fff;
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+
+.software-admin__lightbox-tools button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.software-admin__lightbox-tools button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, .14);
+}
+
+.software-admin__lightbox-tools button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.software-admin__lightbox-tools span {
+  min-width: 48px;
+  text-align: center;
+  font: 600 13px/1 Inter, sans-serif;
+}
+
+@media (hover: none) {
+  .software-admin__preview-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .software-admin__features {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
