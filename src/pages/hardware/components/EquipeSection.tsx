@@ -1,6 +1,7 @@
 import fotoPerfil from '../img/foto-perfil-mock.jpg'
 import fotoPerfil2 from '../img/foto-perfil-mock2.jpg'
 import fotoPerfil3 from '../img/foto-perfil-mock3.jpg'
+import './team.css'
 
 interface TeamMember {
   name: string
@@ -112,7 +113,7 @@ function MemberCards({ members }: { members: TeamMember[] }) {
   )
 }
 
-export default function EquipeSection() {
+export default function EquipeSection({ className = '' }: { className?: string }) {
   const students = TEAM.filter((member) => member.position === 'Estudante')
   const mentors = TEAM.filter((member) => member.position === 'Orientador')
 
@@ -120,7 +121,7 @@ export default function EquipeSection() {
     <section
       id="equipe"
       aria-labelledby="equipe-title"
-      className="team-section border-b border-white/10 bg-[#05080e] px-6 py-16 sm:px-8 sm:py-20"
+      className={`team-section border-b border-white/10 bg-[#05080e] px-6 py-16 sm:px-8 sm:py-20 ${className}`}
     >
       <div className="mx-auto w-full max-w-[1216px]">
         <header className="team-heading">

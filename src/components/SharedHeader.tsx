@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Activity, ArrowRight, ArrowUpRight, Menu, X } from 'lucide-react'
+import { Activity, ArrowRight, Menu, X } from 'lucide-react'
 
 type HeaderPage = 'hardware' | 'software'
 
@@ -17,6 +17,7 @@ const linksByPage = {
     { label: 'O SOFTWARE', href: '#recursos' },
     { label: 'ANÁLISES', href: '#analises' },
     { label: 'ADMINISTRAÇÃO', href: '#administracao' },
+    { label: 'EQUIPE', href: '#equipe' },
 
   ],
 } as const
@@ -31,7 +32,8 @@ export default function SharedHeader({ page }: { page: HeaderPage }) {
   const ctaLabel = isSoftware ? 'Ir para Hardware' : 'Ir para Software'
 
   const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > 20)
+    const hero = document.getElementById(isSoftware ? 'inicio' : 'hero')
+    setScrolled(hero ? hero.getBoundingClientRect().bottom <= 64 : window.scrollY > 20)
     for (const link of [...links].reverse()) {
       if ('external' in link) continue
       const id = link.href.slice(1)
@@ -41,9 +43,10 @@ export default function SharedHeader({ page }: { page: HeaderPage }) {
         break
       }
     }
-  }, [links])
+  }, [isSoftware, links])
 
   useEffect(() => {
+    handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     const onResize = () => { if (window.innerWidth >= 1024) setMenuOpen(false) }
     window.addEventListener('resize', onResize)
@@ -62,7 +65,7 @@ export default function SharedHeader({ page }: { page: HeaderPage }) {
   }
 
   return (
-    <header id="header" className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out ${scrolled ? 'bg-[rgba(5,8,14,0.95)] backdrop-blur-md border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]' : 'bg-[rgba(5,8,14,0.6)] backdrop-blur-sm border-b border-white/[0.06]'}`}>
+    <header id="header" className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out ${scrolled ? 'bg-[rgba(5,8,14,0.95)] backdrop-blur-md border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]' : 'bg-transparent border-b border-transparent shadow-none backdrop-blur-none'}`}>
       <div className="w-full max-w-[1280px] mx-auto px-8 h-16 flex items-center justify-between">
         <a href={isSoftware ? '#inicio' : '#hero'} onClick={e => { e.preventDefault(); navigate(isSoftware ? '#inicio' : '#hero') }} className="flex items-center gap-3 shrink-0 group" aria-label="SmartNose, início">
           <span className="relative flex items-center justify-center w-[46px] h-[46px] rounded-[8px] border border-white/10 transition-all duration-300 group-hover:border-primary/30 bg-white/[0.05]" style={{ boxShadow: '0 0 8px rgba(0,207,170,0.3)' }}>
