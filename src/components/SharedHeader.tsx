@@ -65,7 +65,7 @@ export default function SharedHeader({ page }: { page: HeaderPage }) {
   }
 
   return (
-    <header id="header" className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out ${scrolled ? 'bg-[rgba(5,8,14,0.95)] backdrop-blur-md border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]' : 'bg-transparent border-b border-transparent shadow-none backdrop-blur-none'}`}>
+    <header id="header" className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out ${menuOpen ? 'bg-[rgba(5,8,14,0.98)] backdrop-blur-md border-b border-white/[0.08] shadow-none' : scrolled ? 'bg-[rgba(5,8,14,0.95)] backdrop-blur-md border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]' : 'bg-transparent border-b border-transparent shadow-none backdrop-blur-none'}`}>
       <div className="w-full max-w-[1280px] mx-auto px-8 h-16 flex items-center justify-between">
         <a href={isSoftware ? '#inicio' : '#hero'} onClick={e => { e.preventDefault(); navigate(isSoftware ? '#inicio' : '#hero') }} className="flex items-center gap-3 shrink-0 group" aria-label="SmartNose, início">
           <span className="relative flex items-center justify-center w-[46px] h-[46px] rounded-[8px] border border-white/10 transition-all duration-300 group-hover:border-primary/30 bg-white/[0.05]" style={{ boxShadow: '0 0 8px rgba(0,207,170,0.3)' }}>
