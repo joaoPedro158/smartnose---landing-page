@@ -98,16 +98,6 @@ export default function HeroSection() {
                 <ArrowUpRight size={18} strokeWidth={2.2} aria-hidden="true" />
                 Conhecer o sistema
               </a>
-
-              {/* Secondary CTA — ghost pill */}
-              <a
-                href="#como-funciona"
-                id="cta-como-funciona"
-                className="flex items-center gap-2 px-7 py-3.5 rounded-full font-jakarta font-bold text-[14px] uppercase tracking-[0.35px] text-white border border-white/20 bg-white/[0.04] transition-all duration-300 hover:bg-white/10 hover:border-white/40 hover:scale-[1.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-              >
-                Como Funciona
-                <ChevronDown size={16} strokeWidth={2.2} />
-              </a>
             </div>
 
             {/* Divider line (Quick Tech Telemetry Badges placeholder) */}
