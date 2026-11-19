@@ -643,11 +643,157 @@
   background: #111820;
 }
 
-.software-analytics__image img {
+.software-analytics__expand {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.software-analytics__expand img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: fill;
+}
+
+.software-analytics__expand-icon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 10px;
+  background: rgba(5, 8, 14, .72);
+  color: #fff;
+  opacity: 0;
+  transform: scale(.92);
+  transition: opacity .18s ease, transform .18s ease, background-color .18s ease;
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  pointer-events: none;
+}
+
+.software-analytics__expand:hover .software-analytics__expand-icon,
+.software-analytics__expand:focus-visible .software-analytics__expand-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.software-analytics__expand:focus-visible {
+  outline: 2px solid #00e5c0;
+  outline-offset: 3px;
+}
+
+.software-analytics__lightbox {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  overflow: hidden;
+  background: rgba(2, 4, 6, .94);
+  touch-action: none;
+  cursor: zoom-out;
+}
+
+.software-analytics__lightbox-stage {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 72px clamp(16px, 4vw, 56px) 32px;
+  overflow: hidden;
+}
+
+.software-analytics__lightbox-image {
+  display: block;
+  max-width: calc(100vw - clamp(32px, 8vw, 112px));
+  max-height: calc(100vh - 104px);
+  width: auto;
+  height: auto;
+  border: 1px solid rgba(0, 207, 170, .38);
+  border-radius: 10px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .55);
+  object-fit: contain;
+  cursor: grab;
+  user-select: none;
+  transition: transform .12s ease-out;
+  pointer-events: auto;
+}
+
+.software-analytics__lightbox:active .software-analytics__lightbox-image {
+  cursor: grabbing;
+}
+
+.software-analytics__lightbox-close,
+.software-analytics__lightbox-tools {
+  position: fixed;
+  z-index: 2;
+  top: max(16px, env(safe-area-inset-top));
+  border: 1px solid rgba(255, 255, 255, .2);
+  background: rgba(10, 18, 25, .82);
+  color: #fff;
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+
+.software-analytics__lightbox-close {
+  left: max(16px, env(safe-area-inset-left));
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  padding: 0;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.software-analytics__lightbox-close:hover {
+  background: rgba(0, 153, 204, .38);
+}
+
+.software-analytics__lightbox-tools {
+  right: max(16px, env(safe-area-inset-right));
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 14px;
+}
+
+.software-analytics__lightbox-tools button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.software-analytics__lightbox-tools button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, .14);
+}
+
+.software-analytics__lightbox-tools button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.software-analytics__lightbox-tools span {
+  min-width: 48px;
+  text-align: center;
+  font: 600 13px/1 Inter, sans-serif;
 }
 
 .software-analytics__caption {
@@ -1328,6 +1474,11 @@
    ============================================================================= */
 
 @media (hover: none) {
+  .software-analytics__expand-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+
   .software-analytics__arrow:hover {
     transform: none;
     background: rgba(0, 207, 170, .07);
@@ -1351,6 +1502,35 @@
   }
 }
 
+@media (max-width: 700px) {
+  .software-analytics__lightbox-stage {
+    padding: 76px 12px 20px;
+  }
+
+  .software-analytics__lightbox-image {
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 96px);
+  }
+
+  .software-analytics__lightbox-close {
+    width: 44px;
+    height: 44px;
+  }
+
+  .software-analytics__lightbox-tools {
+    min-height: 44px;
+  }
+
+  .software-analytics__lightbox-tools button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .software-analytics__lightbox-tools span {
+    min-width: 44px;
+  }
+}
+
 /* =============================================================================
    REDUCED MOTION
    ============================================================================= */
@@ -1362,6 +1542,8 @@
   .software-button,
   .software-header__cta,
   .software-analytics__arrow,
+  .software-analytics__expand-icon,
+  .software-analytics__lightbox-image,
   .software-analytics__pagination button::after {
     transition: none;
   }
