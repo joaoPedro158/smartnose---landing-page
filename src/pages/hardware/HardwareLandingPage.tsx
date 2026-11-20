@@ -6,6 +6,7 @@ import OQueESection from './components/OQueESection'
 import VantagensSection from './components/VantagensSection'
 import EventosSection from './components/EventosSection'
 import EquipeSection from './components/EquipeSection'
+import Footer from './components/Footer'
 
 export default function HardwareLandingPage() {
   return (
@@ -19,6 +20,7 @@ export default function HardwareLandingPage() {
       <VantagensSection />
       <EventosSection />
       <EquipeSection />
+      <Footer />
     </main>
   )
 }
