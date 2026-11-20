@@ -1052,6 +1052,17 @@
   width: 100%;
   height: 100%;
   border: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+
+.events-gallery__video[data-active='true'] {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .events-gallery__image-wrap.has-video::after {
