@@ -38,12 +38,15 @@ export default function SoftwareHighlightsSection() {
           <p>Dados, experimentos e sensores em uma plataforma para acompanhar cada etapa do processo.</p>
         </header>
         <div className="software-highlights">
-          {highlights.map((item) => (
+          {highlights.map((item, index) => (
             <article className="software-highlight" key={item.title}>
               <div className="software-highlight__media">
                 <img src={item.image} alt={item.alt} width={item.width} height={item.height} loading="lazy" decoding="async" />
               </div>
               <div className="software-highlight__copy">
+                <span className="software-highlight__index" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
               </div>

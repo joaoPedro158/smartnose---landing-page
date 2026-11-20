@@ -3,6 +3,7 @@ import softwareHero from './img/hero_2.avif'
 import SoftwareHeroSection from './components/SoftwareHeroSection'
 import SoftwareHighlightsSection from './components/SoftwareHighlightsSection'
 import SoftwareAdminSection from './components/SoftwareAdminSection'
+import SoftwareFooter from './components/SoftwareFooter'
 import SoftwareAnalyticsCarousel from './components/SoftwareAnalyticsCarousel'
 import EquipeSection from '../hardware/components/EquipeSection'
 import './styles/software.css'
@@ -21,6 +22,7 @@ export default function SoftwareLandingPage() {
       <SoftwareHighlightsSection />
       <SoftwareAnalyticsCarousel />
       <SoftwareAdminSection />
+      <SoftwareFooter />
       <EquipeSection className="software-team" />
     </main>
   )

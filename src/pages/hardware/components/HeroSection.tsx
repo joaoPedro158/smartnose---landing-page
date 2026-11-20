@@ -1,4 +1,4 @@
-import { ArrowUpRight, ChevronDown } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 
 export default function HeroSection() {
   return (
@@ -125,7 +125,5 @@ export default function HeroSection() {
     </section>
   )
 }
-
-
 
 
