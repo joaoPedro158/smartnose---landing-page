@@ -65,10 +65,24 @@ export default function EventosSection() {
   const viewerRef = useRef<HTMLDivElement>(null)
   const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null)
   const holdTimerRef = useRef<number | null>(null)
+  const preloadedImagesRef = useRef<HTMLImageElement[]>([])
 
   const event = EVENTS[eventIndex]
   const hasPhotos = Boolean(event.photos && event.photos.length > 0)
   const photo = hasPhotos ? event.photos![photoIndex] : null
+
+  useEffect(() => {
+    if (preloadedImagesRef.current.length > 0) return
+
+    preloadedImagesRef.current = EVENTS.flatMap((item) =>
+      item.photos?.map((photoItem) => {
+        const image = new Image()
+        image.src = photoItem.src
+        image.decoding = 'async'
+        return image
+      }) || [],
+    )
+  }, [])
 
   function navigateStory(direction: number) {
     if (!hasPhotos) return
@@ -292,7 +306,16 @@ export default function EventosSection() {
                   allowFullScreen
                 />
               ) : (
-                photo && <img className="events-gallery__image" src={photo.src} alt={photo.alt} key={photo.src} />
+                photo && (
+                  <img
+                    className="events-gallery__image"
+                    src={photo.src}
+                    alt={photo.alt}
+                    key={photo.src}
+                    loading="eager"
+                    decoding="async"
+                  />
+                )
               )}
 
               <div className="events-gallery__caption">
