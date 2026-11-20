@@ -22,8 +22,9 @@ export default function SoftwareLandingPage() {
       <SoftwareHighlightsSection />
       <SoftwareAnalyticsCarousel />
       <SoftwareAdminSection />
-      <SoftwareFooter />
       <EquipeSection className="software-team" />
+      <SoftwareFooter />
+
     </main>
   )
 }
