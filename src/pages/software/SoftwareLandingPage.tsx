@@ -4,6 +4,7 @@ import softwareHero from './img/hero_2.png'
 import SoftwareHeroSection from './components/SoftwareHeroSection'
 import SoftwareHighlightsSection from './components/SoftwareHighlightsSection'
 import SoftwareAdminSection from './components/SoftwareAdminSection'
+import SoftwareFooter from './components/SoftwareFooter'
 import SoftwareAnalyticsCarousel from './components/SoftwareAnalyticsCarousel'
 import './styles/software.css'
 
@@ -117,6 +118,7 @@ export default function SoftwareLandingPage() {
       <SoftwareHighlightsSection />
       <SoftwareAnalyticsCarousel />
       <SoftwareAdminSection />
+      <SoftwareFooter />
     </main>
   )
 }
