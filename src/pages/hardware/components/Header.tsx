@@ -189,23 +189,21 @@ export default function Header() {
               </a>
             )
           })}
-          <a href="#/software" className={"font-jakarta font-bold text-[13px] uppercase tracking-[0.65px] whitespace-nowrap text-[#9CA3AF] transition-colors hover:text-white"}>Software</a>
         </nav>
 
         {/* ── ACTIONS ───────────────────────────────────────────────────── */}
         <div className="hidden lg:flex items-center gap-4 shrink-0">
           {/* Primary CTA */}
           <a
-            href="#equipe"
+            href="#/software"
             id="cta-falar-equipe"
-            onClick={e => { e.preventDefault(); scrollTo('#equipe') }}
             className="relative flex items-center gap-2 px-5 py-2.5 rounded-full font-jakarta font-bold text-[12px] uppercase tracking-[0.6px] text-[#020617] transition-all duration-300 hover:scale-[1.04] hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             style={{
               background: 'linear-gradient(90deg, #00CFAA 0%, #0099CC 100%)',
               boxShadow: '0 0 25px -3px rgba(0,207,170,0.35), 0 0 10px -2px rgba(0,229,192,0.25)',
             }}
           >
-            Falar com a Equipe
+            conhecer o sistema
             <ArrowRight size={14} strokeWidth={2.5} />
           </a>
 
@@ -271,16 +269,16 @@ export default function Header() {
             {/* Mobile CTA */}
             <div className="mt-4 pt-4 border-t border-white/[0.08] flex flex-col gap-3">
               <a
-                href="#equipe"
+                href="#/software"
                 id="mobile-cta-falar-equipe"
-                onClick={e => { e.preventDefault(); scrollTo('#equipe') }}
+                onClick={() => setMobileOpen(false)}
                 className="flex items-center justify-center gap-2 w-full px-5 py-3.5 rounded-full font-jakarta font-bold text-[13px] uppercase tracking-[0.6px] text-[#020617] transition-all duration-300 hover:brightness-110"
                 style={{
                   background: 'linear-gradient(90deg, #00CFAA 0%, #0099CC 100%)',
                   boxShadow: '0 0 25px -3px rgba(0,207,170,0.35)',
                 }}
               >
-                Falar com a Equipe
+                Visitar o software
                 <ArrowRight size={15} strokeWidth={2.5} />
               </a>
             </div>

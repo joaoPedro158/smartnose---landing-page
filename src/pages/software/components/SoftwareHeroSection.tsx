@@ -1,4 +1,5 @@
 import { House } from 'lucide-react'
+import { ArrowUpRight} from 'lucide-react'
 
 export default function SoftwareHeroSection() {
   return (
@@ -7,8 +8,7 @@ export default function SoftwareHeroSection() {
         <h1 id="software-hero-title">Acompanhamento em tempo real <span>e na palma da mão.</span></h1>
         <p className="software-hero__description">Acompanhe cada variação dos sensores, entenda o processo e tome decisões com mais segurança — de onde estiver.</p>
         <div className="software-hero__actions">
-          <a className="software-button software-button--primary" href="#recursos">Conhecer dispositivo</a>
-          <a className="software-button software-button--secondary" href="#/hardware"><House size={16} aria-hidden="true" /> Página principal</a>
+          <a className="software-button software-button--primary" href="#/hardware">Conhecer dispositivo   <ArrowUpRight size={15} strokeWidth={2.5} /></a>
         </div>
       </div>
     </section>

@@ -12,7 +12,6 @@ const navLinks = [
   { label: 'O software', href: '#recursos' },
   { label: 'Análises', href: '#analises' },
   { label: 'Administração', href: '#administracao' },
-  { label: 'Hardware', href: '#/hardware' },
 ]
 
 export default function SoftwareLandingPage() {
@@ -77,8 +76,8 @@ export default function SoftwareLandingPage() {
           ))}
         </nav>
 
-        <a className="software-header__cta" href="#">
-          Acessar plataforma <ArrowUpRight size={14} aria-hidden="true" />
+        <a className="software-header__cta" href="#/hardware">
+          Conhecer o dispositivo <ArrowUpRight size={14} aria-hidden="true" />
         </a>
 
         <button
