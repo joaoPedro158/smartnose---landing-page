@@ -53,7 +53,7 @@ const EVENTS: EventItem[] = [
   {
     name: 'Entrevista',
     description: 'Entrevista especial detalhando o desenvolvimento, a proposta e as aplicações do SmartNose.',
-    videoUrl: 'https://www.youtube-nocookie.com/embed/-rByeQeiA48?autoplay=1&controls=1&rel=0&playsinline=1',
+    videoUrl: 'https://www.youtube-nocookie.com/embed/-rByeQeiA48?controls=1&rel=0&playsinline=1',
   },
 ]
 
@@ -61,7 +61,10 @@ export default function EventosSection() {
   const [eventIndex, setEventIndex] = useState(0)
   const [photoIndex, setPhotoIndex] = useState(0)
   const [isHolding, setIsHolding] = useState(false)
+  const [isSectionVisible, setIsSectionVisible] = useState(false)
+  const [isVideoPreloaded, setIsVideoPreloaded] = useState(false)
 
+  const sectionRef = useRef<HTMLElement>(null)
   const viewerRef = useRef<HTMLDivElement>(null)
   const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null)
   const holdTimerRef = useRef<number | null>(null)
@@ -93,6 +96,24 @@ export default function EventosSection() {
   }
 
   useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsSectionVisible(entry.isIntersecting)
+        if (entry.isIntersecting) {
+          setIsVideoPreloaded(true)
+        }
+      },
+      { threshold: 0.25, rootMargin: '100px 0px' },
+    )
+
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
     return () => {
       if (holdTimerRef.current) {
         window.clearTimeout(holdTimerRef.current)
@@ -101,14 +122,18 @@ export default function EventosSection() {
   }, [])
 
   useEffect(() => {
-    if (!hasPhotos || isHolding) return
+    if (!hasPhotos || isHolding || !isSectionVisible) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const timer = window.setTimeout(() => {
       navigateStory(1)
     }, 6000)
     return () => window.clearTimeout(timer)
-  }, [eventIndex, photoIndex, isHolding, hasPhotos])
+  }, [eventIndex, photoIndex, isHolding, hasPhotos, isSectionVisible])
 
   function selectEvent(index: number) {
+    if (EVENTS[index].videoUrl) {
+      setIsVideoPreloaded(true)
+    }
     setEventIndex(index)
     setPhotoIndex(0)
   }
@@ -203,6 +228,7 @@ export default function EventosSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="impacto"
       aria-labelledby="eventos-title"
       className="events-section border-b border-white/10 bg-[#070b14] px-6 py-20 sm:px-8 sm:py-24"
@@ -283,16 +309,18 @@ export default function EventosSection() {
               aria-live={hasPhotos && !isHolding ? 'off' : 'polite'}
               aria-atomic="true"
             >
-              {event.videoUrl ? (
+              {isVideoPreloaded && (
                 <iframe
                   className="events-gallery__video"
-                  src={event.videoUrl}
-                  title={`Vídeo do evento ${event.name}`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  data-active={event.videoUrl ? 'true' : 'false'}
+                  src={EVENTS.find((item) => item.videoUrl)?.videoUrl}
+                  title="Vídeo do evento Entrevista"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 />
-              ) : (
-                photo && <img className="events-gallery__image" src={photo.src} alt={photo.alt} key={photo.src} />
+              )}
+              {!event.videoUrl && photo && (
+                <img className="events-gallery__image" src={photo.src} alt={photo.alt} key={photo.src} />
               )}
 
               <div className="events-gallery__caption">

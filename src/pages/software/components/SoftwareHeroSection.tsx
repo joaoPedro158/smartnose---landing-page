@@ -8,7 +8,6 @@ export default function SoftwareHeroSection() {
         <p className="software-hero__description">Acompanhe cada variação dos sensores, entenda o processo e tome decisões com mais segurança — de onde estiver.</p>
         <div className="software-hero__actions">
           <a className="software-button software-button--primary" href="#recursos">Conhecer dispositivo</a>
-          <a className="software-button software-button--secondary" href="#/hardware"><House size={16} aria-hidden="true" /> Página principal</a>
         </div>
       </div>
     </section>
