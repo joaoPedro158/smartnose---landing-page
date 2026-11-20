@@ -971,25 +971,68 @@
   position: fixed;
   z-index: 100;
   inset: 0;
-  display: flex;
-  padding: clamp(16px, 4vw, 56px);
-  align-items: center;
-  justify-content: center;
-  overflow: auto;
+  overflow: hidden;
   background: rgba(2, 4, 6, .92);
   cursor: zoom-out;
+  touch-action: none;
+}
+
+.software-admin__lightbox-stage {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 72px clamp(16px, 4vw, 56px) 32px;
+  overflow: hidden;
 }
 
 .software-admin__lightbox-image {
   display: block;
   flex: none;
-  max-width: none;
-  max-height: none;
+  max-width: calc(100vw - clamp(32px, 8vw, 112px));
+  max-height: calc(100vh - 104px);
+  width: auto;
+  height: auto;
   margin: auto;
   border: 1px solid rgba(0, 207, 170, .4);
   border-radius: 10px;
   box-shadow: 0 24px 80px rgba(0, 0, 0, .55);
-  cursor: default;
+  object-fit: contain;
+  cursor: grab;
+  user-select: none;
+  transition: transform .12s ease-out;
+}
+
+.software-admin__lightbox:active .software-admin__lightbox-image {
+  cursor: grabbing;
+}
+
+.software-admin__lightbox-close,
+.software-admin__lightbox-tools {
+  position: fixed;
+  z-index: 2;
+  top: max(16px, env(safe-area-inset-top));
+  border: 1px solid rgba(255, 255, 255, .2);
+  background: rgba(10, 18, 25, .82);
+  color: #fff;
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+}
+
+.software-admin__lightbox-close {
+  left: max(16px, env(safe-area-inset-left));
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  padding: 0;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.software-admin__lightbox-close:hover {
+  background: rgba(0, 153, 204, .38);
 }
 
 .software-admin__lightbox-tools {
@@ -1041,6 +1084,35 @@
   .software-admin__preview-icon {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@media (max-width: 700px) {
+  .software-admin__lightbox-stage {
+    padding: 76px 12px 20px;
+  }
+
+  .software-admin__lightbox-image {
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 96px);
+  }
+
+  .software-admin__lightbox-close {
+    width: 44px;
+    height: 44px;
+  }
+
+  .software-admin__lightbox-tools {
+    min-height: 44px;
+  }
+
+  .software-admin__lightbox-tools button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .software-admin__lightbox-tools span {
+    min-width: 44px;
   }
 }
 
@@ -1507,26 +1579,39 @@
     padding: 76px 12px 20px;
   }
 
+  .software-admin__lightbox-stage {
+    padding: 76px 12px 20px;
+  }
+
   .software-analytics__lightbox-image {
     max-width: calc(100vw - 24px);
     max-height: calc(100vh - 96px);
   }
 
-  .software-analytics__lightbox-close {
+  .software-admin__lightbox-image {
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 96px);
+  }
+
+  .software-analytics__lightbox-close,
+  .software-admin__lightbox-close {
     width: 44px;
     height: 44px;
   }
 
-  .software-analytics__lightbox-tools {
+  .software-analytics__lightbox-tools,
+  .software-admin__lightbox-tools {
     min-height: 44px;
   }
 
-  .software-analytics__lightbox-tools button {
+  .software-analytics__lightbox-tools button,
+  .software-admin__lightbox-tools button {
     width: 40px;
     height: 40px;
   }
 
-  .software-analytics__lightbox-tools span {
+  .software-analytics__lightbox-tools span,
+  .software-admin__lightbox-tools span {
     min-width: 44px;
   }
 }
@@ -1544,6 +1629,7 @@
   .software-analytics__arrow,
   .software-analytics__expand-icon,
   .software-analytics__lightbox-image,
+  .software-admin__lightbox-image,
   .software-analytics__pagination button::after {
     transition: none;
   }
